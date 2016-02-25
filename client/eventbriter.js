@@ -3,11 +3,6 @@ var modules = [
     href: "/",
     template: "home",
     title: "Home"
-  },
-  {
-    href: "/payment",
-    template: "card_info",
-    title: "Dank"
   }
 ];
 
