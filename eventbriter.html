@@ -1,0 +1,51 @@
+<head>
+  <title>{{title}}</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<template name="layout">
+<header>
+{{> navbar}}
+</header>
+
+<div class="container">
+  {{> yield}}
+</div>
+
+<footer class="page-footer">
+</footer>
+</template>
+
+<template name="navbar">
+<nav class="navbar navbar-light bg-faded">
+  <a class="navbar-brand" href="#">EventBriter</a>
+  <ul class="nav navbar-nav">
+    {{#each links}}
+    <li class="nav-item {{#if active}}active{{/if}}">
+      <a class="nav-link" href="{{href}}">{{title}} {{#if active}}<span class="sr-only">(current)</span>{{/if}}</a>
+    </li>
+    {{/each}}
+  </ul>
+  <div class="account-button pull-xs-right">
+    {{#if currentUser}}
+    <div>Hi <b>{{currentUser.services.auth0.name}}</b>!</div>
+    <button class="logout btn btn-primary-outline">Logout</button>
+    {{else}}
+    <button class="login btn btn-primary-outline">Login</button>
+    {{/if}}
+  </div>
+</nav>
+</template>
+
+<template name="account-button">
+
+</template>
+
+<template name="home">
+<div class="container">
+  <div><h1>Home</h1></div>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed nibh eu quam laoreet tincidunt. Nullam id elementum dolor, at consectetur leo. Donec porttitor ante vitae odio interdum, id posuere magna posuere. Nunc tincidunt, nunc ut rhoncus fermentum, risus elit rutrum massa, vitae porttitor enim lacus nec ex. Fusce vel lacinia lacus. Curabitur et accumsan mi, condimentum accumsan massa. Fusce dui tellus, ullamcorper sit amet fermentum dignissim, finibus et massa. Mauris vel tempor est, sed dignissim nulla. Integer imperdiet felis a massa tristique dapibus. Donec consectetur ipsum metus, at vestibulum enim feugiat et. Cras ornare mi a dui vestibulum lacinia. In vel nisi sit amet risus ultricies facilisis. Suspendisse ac ligula vel turpis vehicula ultrices vitae in magna. Donec a dolor vehicula, tincidunt dui lacinia, mattis quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </p>
+</div>
+</template>
