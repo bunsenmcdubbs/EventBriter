@@ -1,0 +1,7 @@
+<template name="event_listing">
+<ul>
+  {{#each event_list}}
+  <li><a href="/events/{{_id}}">{{name}} at {{location}}</a></li>
+  {{/each}}
+</ul>
+</template>

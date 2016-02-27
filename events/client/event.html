@@ -1,0 +1,39 @@
+<template name="view_event">
+<small class="text-muted">Event id: {{_id}}</small>
+<h1>{{name}} <small>created by {{username}}</small></h1>
+<h2>Location: {{location}}</h2>
+<span>from {{start}} to {{end}}</span>
+</template>
+
+<template name="edit_event">
+<div class="card card-block">
+<h2 class="card-title">
+{{#if new_event}}
+New Event!
+{{else}}
+Edit event #{{id}}!
+{{/if}}
+</h2>
+<form class="row edit_event">
+  <fieldset class="form-group col-xs-12">
+    <input type="text" class="form-control" name="name"
+      placeholder="Event Name" value="{{name}}">
+  </fieldset>
+  <fieldset class="form-group col-xs-12">
+    <input type="text" class="form-control" name="location"
+      placeholder="Event Location" value="{{location}}">
+  </fieldset>
+  <fieldset class="form-group col-xs-6">
+    <input type="date" class="form-control" name="start"
+      placeholder="Start Date" value="{{start}}">
+  </fieldset>
+  <fieldset class="form-group col-xs-6">
+    <input type="date" class="form-control" name="end"
+      placeholder="End Date" value="{{end}}">
+  </fieldset>
+  <fieldset class="form-group col-xs-12">
+    <button type="submit" class="btn btn-success-outline">Save</button>
+  </fieldset>
+</form>
+</div>
+</template>

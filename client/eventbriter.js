@@ -1,25 +1,24 @@
-var modules = [
+Meteor.subscribe("userData");
+
+var links = [
   {
     href: "/",
-    template: "home",
     title: "Home"
+  },
+  {
+    href: "/events/",
+    title: "Events"
+  },
+  {
+    href: "/events/new",
+    title: "Make a new event!"
   }
 ];
 
-Router.configure({
-  layoutTemplate: 'layout'
-});
-
-_.each(modules, function(module) {
-  Router.route(module.href, function() {
-    this.render(module.template);
-  });
-});
-
+// TODO implement active flag
 Template.navbar.helpers({
   links: function() {
-    console.log(modules);
-    return modules;
+    return links;
   }
 });
 

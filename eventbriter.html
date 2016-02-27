@@ -26,19 +26,19 @@
     </li>
     {{/each}}
   </ul>
-  <div class="account-button pull-xs-right">
-    {{#if currentUser}}
-    <div>Hi <b>{{currentUser.services.auth0.name}}</b>!</div>
-    <button class="logout btn btn-primary-outline">Logout</button>
-    {{else}}
-    <button class="login btn btn-primary-outline">Login</button>
-    {{/if}}
-  </div>
+  {{> account_button}}
 </nav>
 </template>
 
-<template name="account-button">
-
+<template name="account_button">
+<div class="account-button pull-xs-right">
+  {{#if currentUser}}
+  <div>Hi <b>{{currentUser.services.auth0.name}}</b>!</div>
+  <button class="logout btn btn-primary-outline">Logout</button>
+  {{else}}
+  <button class="login btn btn-primary-outline">Login</button>
+  {{/if}}
+</div>
 </template>
 
 <template name="home">
