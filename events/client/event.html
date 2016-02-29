@@ -1,39 +1,52 @@
 <template name="view_event">
-<small class="text-muted">Event id: {{_id}}</small>
-<h1>{{name}} <small>created by {{username}}</small></h1>
-<h2>Location: {{location}}</h2>
-<span>from {{start}} to {{end}}</span>
+  <small class="text-muted">Event id: {{_id}}</small>
+  <h1>{{name}} <small class="text-muted">created by {{username}}</small></h1>
+  <h2>at {{location}} from {{start}} to {{end}}</h2>
+  {{#if isOwner}}
+  <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>
+  <a href="/events/{{_id}}/manage" class="btn btn-secondary">Manage</a>
+  {{/if}}
 </template>
 
 <template name="edit_event">
-<div class="card card-block">
-<h2 class="card-title">
-{{#if new_event}}
-New Event!
-{{else}}
-Edit event #{{id}}!
-{{/if}}
-</h2>
-<form class="row edit_event">
-  <fieldset class="form-group col-xs-12">
-    <input type="text" class="form-control" name="name"
-      placeholder="Event Name" value="{{name}}">
-  </fieldset>
-  <fieldset class="form-group col-xs-12">
-    <input type="text" class="form-control" name="location"
-      placeholder="Event Location" value="{{location}}">
-  </fieldset>
-  <fieldset class="form-group col-xs-6">
-    <input type="date" class="form-control" name="start"
-      placeholder="Start Date" value="{{start}}">
-  </fieldset>
-  <fieldset class="form-group col-xs-6">
-    <input type="date" class="form-control" name="end"
-      placeholder="End Date" value="{{end}}">
-  </fieldset>
-  <fieldset class="form-group col-xs-12">
-    <button type="submit" class="btn btn-success-outline">Save</button>
-  </fieldset>
-</form>
-</div>
+  <div class="card card-block">
+    <h2 class="card-title">
+    {{#if new_event}}
+    New Event!
+    {{else}}
+    Edit event #{{_id}}!
+    {{/if}}
+    </h2>
+    <form class="row edit_event">
+      <fieldset class="form-group col-xs-12">
+        <input type="text" class="form-control" name="name"
+          placeholder="Event Name" value="{{name}}">
+      </fieldset>
+      <fieldset class="form-group col-xs-12">
+        <input type="text" class="form-control" name="location"
+          placeholder="Event Location" value="{{location}}">
+      </fieldset>
+      <fieldset class="form-group col-xs-6">
+        <input type="date" class="form-control" name="start"
+          placeholder="Start Date" value="{{start}}">
+      </fieldset>
+      <fieldset class="form-group col-xs-6">
+        <input type="date" class="form-control" name="end"
+          placeholder="End Date" value="{{end}}">
+      </fieldset>
+      <fieldset class="form-group col-xs-12">
+        <button type="submit" class="btn btn-success-outline">Save</button>
+      </fieldset>
+    </form>
+    {{#unless new_event}}
+    <a href="/events/{{_id}}" class="btn btn-secondary">View</a>
+    <a href="/events/{{_id}}/manage" class="btn btn-secondary">Manage</a>
+    {{/unless}}
+  </div>
+</template>
+
+<template name="manage_event">
+  <h1>Manage event #{{_id}}</h1>
+  <a href="/events/{{_id}}" class="btn btn-secondary">View</a>
+  <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>
 </template>
