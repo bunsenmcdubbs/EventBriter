@@ -13,7 +13,11 @@ function getFormData() {
 Template.edit_event.events({
   "submit form.edit_event": function(event) {
     event.preventDefault();
+
+    // TODO perform basic validations and conversions
+    // TODO convert date strings to Date() objects
     var data = getFormData();
+
     if (this.new_event) {
       Meteor.call("insertEvent", data, function(error, result) {
         if (error) {
@@ -24,7 +28,14 @@ Template.edit_event.events({
         }
       });
     } else {
-
+      Meteor.call("updateEvent", this._id, data, function(error, result) {
+        if (error) {
+          console.log("error", error);
+        } else {
+          // TODO notify user of successful save
+          console.log("successfully saved", result);
+        }
+      });
     }
   }
 });
