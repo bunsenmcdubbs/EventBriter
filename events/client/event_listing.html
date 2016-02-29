@@ -1,7 +1,11 @@
 <template name="event_listing">
-<ul>
-  {{#each event_list}}
-  <li><a href="/events/{{_id}}">{{name}} at {{location}}</a></li>
-  {{/each}}
-</ul>
+  <div class="list-group">
+    <h1>Upcoming Events</h1>
+    {{#each event_list}}
+    <a href="/events/{{_id}}" class="list-group-item">
+      <small>{{start}} to {{end}}</small>
+      <strong>{{name}}</strong> at {{location}}
+    </a>
+    {{/each}}
+  </div>
 </template>
