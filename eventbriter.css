@@ -4,3 +4,17 @@ html {
 body {
   min-height: 100%;
 }
+
+.content-wrapper {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.account-button>.greeting {
+  /* Override the irrelevant btn styling*/
+  cursor: auto;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+}

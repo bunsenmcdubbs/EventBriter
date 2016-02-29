@@ -11,13 +11,18 @@ var links = [
   },
   {
     href: "/events/new",
-    title: "Make a new event!"
+    title: "Make a new event!",
+    private: true
   }
 ];
 
 // TODO implement active flag
 Template.navbar.helpers({
   links: function() {
+    _.each(links, function(link) {
+      link.hide = link.private && !Meteor.user();
+      return link;
+    });
     return links;
   }
 });
@@ -34,5 +39,6 @@ Template.navbar.events({
   },
   "click button.logout": function(event) {
     Meteor.logout();
+    Router.go("/");
   }
 });
