@@ -1,53 +1,70 @@
-var modules = [
-  {
-    href: "/",
-    template: "home",
-    title: "Home"
-  },
-  {
-    href: "/events/",
-    template: "event_listing",
-    title: "All Events"
-  },
-  {
-    href: "/events/:event_id",
-    template: "view_event",
-    title: "Event Details"
-  },
-  {
-    href: "/events/:event_id/edit",
-    template: "edit_event",
-    title: "Edit Event"
-  },
-  {
-    href: "/events/:event_id/manage",
-    template: "manage_event",
-    title: "Manage Event"
+// ===========
+// Controllers
+// ===========
+EventController = RouteController.extend({
+  data: function() {
+    var event = Events.findOne({_id: this.params.event_id});
+    event.isOwner = ownsEvent(Meteor.userId(), event);
+    return event;
   }
-];
+});
 
-Router.configure({
-  layoutTemplate: 'layout'
+ModifyEventController = EventController.extend({
+  onBeforeAction: function() {
+    // Check for ownership permissions
+    // NOTE: this will also reject unauthenticated users (yay)
+    if (!ownsEvent(Meteor.userId(), this.data())) {
+      this.render("insufficient_permissions");
+    } else {
+      this.next();
+    }
+  }
+});
+
+EventListController = RouteController.extend({
+  // NOTE: this is currently not in use (and can't be reached - array at root)
+  // check event_listing.js for Template helper
+  // data: function() {
+  //   return Events.find({});
+  // },
+  template: "event_listing"
+});
+
+// ======
+// Routes
+// ======
+Router.route("/events/", {
+  controller: EventListController
 });
 
 Router.route("/events/new", {
   template: "edit_event",
-  data: function() { return { new_event: true}; },
-  action: function() {
-    this.render("edit_event", { data: { new_event: true } });
+  data: function() {
+    // TODO seed the dates/get a better date picker
+    return {
+      new_event: true,
+    };
+  },
+  onBeforeAction: function() {
+    if (!Meteor.user()) {
+      this.render("insufficient_permissions");
+    } else {
+      this.next();
+    }
   }
 });
 
-_.each(modules, function(module) {
-  Router.route(module.href, {
-    template: module.template,
-    data: function() {
-      // TODO FIX THIS
-      // console.log(this.params.event_id, Events.findOne({_id: this.params.event_id}));
-      return Events.findOne({_id: this.params.event_id});
-    },
-    action: function() {
-      this.render(module.template);
-    }
-  });
+Router.route("/events/:event_id", {
+  controller: EventController,
+  template: "view_event"
+});
+
+Router.route("/events/:event_id/edit", {
+  controller: ModifyEventController,
+  template: "edit_event"
+});
+
+Router.route("/events/:event_id/manage", {
+  controller: ModifyEventController,
+  template: "manage_event"
 });
