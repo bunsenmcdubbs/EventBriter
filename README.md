@@ -22,6 +22,8 @@ all the packages and dependencies.
 
 *Use and love the [official Meteor documentation](http://docs.meteor.com/#/full/quickstart)*
 
+*NOTE* We are using [Bootstrap v4-alpha](http://v4-alpha.getbootstrap.com/).
+
 ### Project Structure
 
 As of the current writing (commit after 8717aff25), the project
@@ -57,8 +59,7 @@ looks like this:
 ```
 
 See: http://docs.meteor.com/#/full/structuringyourapp for
-more details. In particular we are using method 1 outlined in the 
+more details. In particular we are using method 1 outlined in the
 documentation (root level directories are feature/concept driven,
 not client/server). Eventually the code should be refactored
 into packages to further increase modularity.
-
