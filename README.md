@@ -1,6 +1,6 @@
 # EventBriter: Events, Brighter
 
-aka EventBriter without a service fee and with more HackGT love :heart:
+aka EventBrite without a service fee and with more HackGT love :heart:
 
 ## Developing EventBriter
 
