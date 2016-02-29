@@ -11,11 +11,11 @@ tutorial on the official Meteor site).
 
 ### Getting Started
 
- 1) Install Meteor
- 2) Clone from this git repo
- 3) `cd eventbriter`
- 4) `meteor` or `meteor run` (run is the default task)
- 5) Navigate your browser to `http://localhost:3000`
+ 1. Install Meteor
+ 2. Clone from this git repo `git clone git@github.com:HackGT/EventBriter.git`
+ 3. `cd eventbriter`
+ 4. `meteor` or `meteor run` (run is the default task)
+ 5. Navigate your browser to `http://localhost:3000`
 
 The first run will be a bit slow to start because it is installing
 all the packages and dependencies.
@@ -59,6 +59,6 @@ looks like this:
 See: http://docs.meteor.com/#/full/structuringyourapp for
 more details. In particular we are using method 1 outlined in the 
 documentation (root level directories are feature/concept driven,
-not client/server). Eventually more code needs to be refactored
+not client/server). Eventually the code should be refactored
 into packages to further increase modularity.
 
