@@ -13,16 +13,17 @@ tutorial on the official Meteor site).
 
  1. Install Meteor
  2. Clone from this git repo `git clone git@github.com:HackGT/EventBriter.git`
- 3. `cd eventbriter`
- 4. `meteor` or `meteor run` (run is the default task)
- 5. Navigate your browser to `http://localhost:3000`
+ 3. Set up the auth0 credentials in `.env` (see `.env_example` for format)
+ 4. `cd eventbriter`
+ 5. `meteor` or `meteor run` (run is the default task)
+ 6. Navigate your browser to `http://localhost:3000`
 
 The first run will be a bit slow to start because it is installing
 all the packages and dependencies.
 
 *Use and love the [official Meteor documentation](http://docs.meteor.com/#/full/quickstart)*
 
-*NOTE* We are using [Bootstrap v4-alpha](http://v4-alpha.getbootstrap.com/).
+**NOTE:** We are using [Bootstrap v4-alpha](http://v4-alpha.getbootstrap.com/).
 
 ### Project Structure
 
