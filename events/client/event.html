@@ -1,7 +1,24 @@
 <template name="view_event">
   <small class="text-muted">Event id: {{_id}}</small>
-  <h1>{{name}} <small class="text-muted">created by {{username}}</small></h1>
-  <h2>at {{location}} from {{start}} to {{end}}</h2>
+  <div class="event-details jumbotron">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 text-sm-right">
+        <h1>{{name}}</h1>
+        <div>By {{username}}</div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div>at {{location}}</div>
+        <div>from {{start}} to {{end}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="event-description card card-block">
+    {{#if description}}
+      {{#markdown}}{{description}}{{/markdown}}
+    {{else}}
+      No description available
+    {{/if}}
+  </div>
   {{#if isOwner}}
   <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>
   <a href="/events/{{_id}}/manage" class="btn btn-secondary">Manage</a>
@@ -33,6 +50,9 @@
       <fieldset class="form-group col-xs-6">
         <input type="date" class="form-control" name="end"
           placeholder="End Date" value="{{end}}">
+      </fieldset>
+      <fieldset class="form-group col-xs-12">
+        <textarea name="description" rows="4" class="form-control">{{description}}</textarea>
       </fieldset>
       <fieldset class="form-group col-xs-12">
         <button type="submit" class="btn btn-success-outline">Save</button>
