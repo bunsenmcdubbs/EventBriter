@@ -38,7 +38,11 @@ Template.navbar.events({
     });
   },
   "click button.logout": function(event) {
-    Meteor.logout();
-    Router.go("/");
+    Meteor.logout(function(error) {
+        if (error) {
+            console.err(error);
+        }
+        Router.go("/");
+     });
   }
 });

@@ -28,11 +28,15 @@ Meteor.methods({
     check(this.userId, String); // check that the user is logged in
 
     var old_event = Events.findOne({_id: event_id});
-    // TODO return some failure/rejection
-    // ownsEvent(this.userId, old_event);
+
+    // this check should never be executed because UI will prevent
+    // unqualified users from navigating to the edit page
+    if (!ownsEvent(this.userId, old_event)) {
+        throw new Meteor.Error("insufficient_permissions",
+            "The user is not allowed to edit this event");
+    }
 
     // TODO do schema validation
-    // TODO make (form-editable) data and metadata fields?
     event = _.extend(old_event, event);
 
     return Events.update({_id: event._id}, event) === 1; // successfully updated 1 object
