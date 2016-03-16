@@ -1,22 +1,27 @@
 Meteor.subscribe("Events");
 
-var FORM_ID = "form.edit_event";
+const FORM_ID = "form.edit_event";
 
 function getFormData() {
-  return _.object(
+  const form_data = _.object(
     _.map($(FORM_ID).serializeArray(),
       function(e) { return [e.name, e.value]; }
     )
   );
+
+  form_data.start = yyyyMMddToDate(form_data.start);
+  form_data.end = yyyyMMddToDate(form_data.end);
+  form_data.created = yyyyMMddToDate(form_data.created);
+
+  return form_data;
 }
 
 Template.edit_event.events({
   "submit form.edit_event": function(event) {
     event.preventDefault();
 
-    // TODO perform basic validations and conversions
-    // TODO convert date strings to Date() objects
-    var data = getFormData();
+    const data = getFormData();
+    // TODO disable save button for existing events until edits are made
 
     if (this.new_event) {
       Meteor.call("insertEvent", data, function(error, result) {

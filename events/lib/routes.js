@@ -8,6 +8,12 @@ EventController = RouteController.extend({
     var event = Events.findOne({_id: this.params.event_id});
     if (!event) { console.log("No event found"); }
     event.isOwner = ownsEvent(Meteor.userId(), event);
+
+    // convert dates
+    event.start = dateToyyyyMMdd(event.start);
+    event.end = dateToyyyyMMdd(event.end);
+    event.created = dateToyyyyMMdd(event.created);
+
     return event;
   }
 });
