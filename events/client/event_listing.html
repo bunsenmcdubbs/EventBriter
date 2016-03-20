@@ -3,6 +3,7 @@
     <h1>Upcoming Events</h1>
     {{#each event_list}}
     <a href="/events/{{_id}}" class="list-group-item">
+      <!-- TODO add block helper in html to convert dates to friendly strings -->
       <small>{{start}} to {{end}}</small>
       <strong>{{name}}</strong> at {{location}}
     </a>

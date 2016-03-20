@@ -5,7 +5,7 @@ EventController = RouteController.extend({
   // TODO add 404 checker in a after-data-first-time-request hook
   // TODO handle deleted events (when the user is currently viewing)
   data: function() {
-    var event = Events.findOne({_id: this.params.event_id});
+    const event = Events.findOne({_id: this.params.event_id});
     if (!event) { console.log("No event found"); }
     event.isOwner = ownsEvent(Meteor.userId(), event);
 

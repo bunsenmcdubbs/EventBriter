@@ -1,5 +1,6 @@
 Template.event_listing.helpers({
   event_list: function() {
-    return Events.find({}, {sort: ['start', 'end']});
+    const events_cursor = Events.find({}, {sort: ['start', 'end']});
+    return events_cursor;
   }
 });
