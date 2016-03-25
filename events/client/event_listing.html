@@ -1,11 +1,11 @@
 <template name="event_listing">
   <div class="list-group">
     <h1>Upcoming Events</h1>
-    {{#each event_list}}
-    <a href="/events/{{_id}}" class="list-group-item">
+    {{#each event in event_list}}
+    <a href="/events/{{event._id}}" class="list-group-item">
       <!-- TODO add block helper in html to convert dates to friendly strings -->
-      <small>{{start}} to {{end}}</small>
-      <strong>{{name}}</strong> at {{location}}
+      <small>{{ display_date event.start }} to {{ display_date event.end }}</small>
+      <strong>{{ event.name }}</strong> at {{ event.location }}
     </a>
     {{/each}}
   </div>

@@ -9,10 +9,13 @@ EventController = RouteController.extend({
     if (!event) { console.log("No event found"); }
     event.isOwner = ownsEvent(Meteor.userId(), event);
 
-    // convert dates
-    event.start = dateToyyyyMMdd(event.start);
-    event.end = dateToyyyyMMdd(event.end);
-    event.created = dateToyyyyMMdd(event.created);
+    // calculate remaining tickets
+    if (event.tickets) {
+      for (let ticket of event.tickets) {
+        ticket.remaining = ticket.total - (ticket.sold || []).length;
+      }
+    }
+    event.tickets = new ReactiveVar(event.tickets || []);
 
     return event;
   }
@@ -24,9 +27,9 @@ ModifyEventController = EventController.extend({
     // NOTE: this will also reject unauthenticated users (yay)
     if (!ownsEvent(Meteor.userId(), this.data())) {
       this.render("insufficient_permissions");
-    } else {
-      this.next();
+      throw new Meteor.Error("insufficient_permissions", "user not authorized to edit this event");
     }
+    this.next();
   }
 });
 

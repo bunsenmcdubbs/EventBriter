@@ -8,7 +8,7 @@
       </div>
       <div class="col-xs-12 col-sm-6">
         <div>at {{location}}</div>
-        <div>from {{start}} to {{end}}</div>
+        <div>from {{ display_date start }} to {{ display_date end }}</div>
       </div>
     </div>
   </div>
@@ -19,6 +19,14 @@
       No description available
     {{/if}}
   </div>
+  <div class="list-group">
+    {{ #each ticket in (ticket_list tickets) }}
+    <div class="list-group-item">
+      {{> view_ticket_choice ticket }}
+    </div>
+    {{ /each }}
+  </div>
+
   {{#if isOwner}}
   <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>
   <a href="/events/{{_id}}/manage" class="btn btn-secondary">Manage</a>
@@ -45,15 +53,28 @@
       </fieldset>
       <fieldset class="form-group col-xs-6">
         <input type="date" class="form-control" name="start"
-          placeholder="Start Date" value="{{start}}">
+          placeholder="Start Date" value="{{ display_date start }}">
       </fieldset>
       <fieldset class="form-group col-xs-6">
         <input type="date" class="form-control" name="end"
-          placeholder="End Date" value="{{end}}">
+          placeholder="End Date" value="{{ display_date end }}">
       </fieldset>
       <fieldset class="form-group col-xs-12">
         <textarea name="description" rows="4" class="form-control">{{description}}</textarea>
       </fieldset>
+      <div class="form-group col-xs-12">
+        <div class="list-group">
+          {{ #each ticket in (ticket_list tickets) }}
+          <div class="list-group-item">
+            {{> edit_ticket_choice ticket=ticket }}
+          </div>
+          {{ /each }}
+          <div class="list-group-item list-group-item-danger new-ticket">
+            {{> edit_ticket_choice ""}}
+          </div>
+        </div>
+        <button class="btn btn-primary add-new-ticket">+</button>
+      </div>
       <fieldset class="form-group col-xs-12">
         <button type="submit" class="btn btn-success-outline">Save</button>
       </fieldset>
