@@ -12,6 +12,7 @@ EventController = RouteController.extend({
     // calculate remaining tickets
     if (event.tickets) {
       for (let ticket of event.tickets) {
+        ticket.total = ticket.total || 0;
         ticket.remaining = ticket.total - (ticket.sold || []).length;
       }
     }
@@ -55,6 +56,7 @@ Router.route("/events/new", {
     // TODO seed the dates/get a better date picker
     return {
       new_event: true,
+      tickets: new ReactiveVar([]),
     };
   },
   onBeforeAction: function() {
@@ -63,20 +65,24 @@ Router.route("/events/new", {
     } else {
       this.next();
     }
-  }
+  },
+  name: "event.new"
 });
 
 Router.route("/events/:event_id", {
   controller: EventController,
-  template: "view_event"
+  template: "view_event",
+  name: "event.view",
 });
 
 Router.route("/events/:event_id/edit", {
   controller: ModifyEventController,
-  template: "edit_event"
+  template: "edit_event",
+  name: "event.edit",
 });
 
 Router.route("/events/:event_id/manage", {
   controller: ModifyEventController,
-  template: "manage_event"
+  template: "manage_event",
+  name: "event.manage",
 });
