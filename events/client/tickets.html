@@ -1,17 +1,18 @@
 <!-- Individual ticket choice partial -->
 <template name="view_ticket_choice">
-  <div class="row">
-    <div class="col-md-6">
-      {{ label }}
+  <div class="row js-ticket" data-ticket-id="{{ticket.id}}">
+    <div class="col-md-8">
+      {{ ticket.label }}
     </div>
     <div class="col-md-2">
       <!-- TODO block helper to display money amounts -->
-      {{ display_price price }}
+      {{ display_price ticket.price }}
     </div>
     <div class="col-md-2">
-      Avail. {{ remaining }} / {{ total }}
+      Avail. {{ ticket.remaining }} / {{ ticket.total }}
     </div>
-    <div class="col-md-2">
+    <!-- TODO add this back in later -->
+    <!-- <div class="col-md-2">
       <div class="input-group">
         <span class="input-group-btn">
           <button class="btn btn-secondary" type="button">+</button>
@@ -21,48 +22,42 @@
           <button class="btn btn-secondary" type="button">-</button>
         </span>
       </div>
-    </div>
-  </div>
-</template>
-
-<!-- List of ticket choices partial -->
-<template name="view_ticket_choices">
-  <div class="list-group">
-    {{ #each ticket in tickets }}
-    <div class="list-group-item">
-      {{> view_ticket_choice ticket }}
-    </div>
-    {{ /each }}
+    </div> -->
   </div>
 </template>
 
 <!-- Individual ticket choice edit -->
 <template name="edit_ticket_choice">
-  <form class="row edit_ticket">
-    <!-- TODO fix this and implement ticket deletion -->
-    {{#if ticket.label}}
-    <button class="delete-ticket btn btn-danger" data-ticket="{{ticket.label}}">X</button>
-    {{/if}}
-    <div class="col-xs-12 col-lg-5">
-      <input type="text" name="label" class="form-control" placeholder="label" value="{{ticket.label}}">
+  <form data-ticket-id="{{ticket.id}}" class="row edit_ticket">
+
+    <div class="col-xs-12 col-lg-7">
+      <input type="text" name="label" class="form-control"
+        placeholder="label" value="{{ticket.label}}">
     </div>
     <div class="input-group col-xs-4 col-lg-2">
       <span class="input-group-addon">$</span>
-      <input type="number" name="price" class="form-control" placeholder="price" value="{{ticket.price}}">
+      <input type="number" name="price" class="form-control"
+        placeholder="price" value="{{ticket.price}}">
     </div>
     <div class="col-xs-4 col-lg-2">
       <div class="input-group">
         <label for=""></label>
-        <input type="number" name="total" class="form-control" placeholder="total tickets" value="{{ticket.total}}">
+        <input type="number" name="total" class="form-control"
+          placeholder="total tickets" value="{{ticket.total}}">
       </div>
     </div>
-    <div class="col-xs-4 col-lg-2">
+    <!-- TODO add this back in later -->
+    <!-- <div class="col-xs-4 col-lg-2">
       <div class="input-group">
         <span class="input-group-addon">
-          <input type="checkbox" aria-label="Checkbox for following text input">
+          <input type="checkbox">
         </span>
-        <input type="number" name="max_per_person" class="form-control" placeholder="max per person" value="{{ticket.max_per_person}}">
+        <input type="number" name="max_per_person" class="form-control"
+          placeholder="max per person" value="{{ticket.max_per_person}}">
       </div>
-    </div>
+    </div> -->
+    {{#if ticket.label}}
+    <button class="delete-ticket btn btn-danger">X</button>
+    {{/if}}
   </form>
 </template>

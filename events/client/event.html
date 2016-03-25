@@ -22,7 +22,7 @@
   <div class="list-group">
     {{ #each ticket in (ticket_list tickets) }}
     <div class="list-group-item">
-      {{> view_ticket_choice ticket }}
+      {{> view_ticket_choice ticket=ticket }}
     </div>
     {{ /each }}
   </div>

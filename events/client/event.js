@@ -19,7 +19,12 @@ function getFormData() {
   })
   .map(
     function(form) {
-      return $(form).serializeArray();
+      const form_data = $(form).serializeArray();
+      form_data.push({
+        name: "id",
+        value: $(form).data().ticketId,
+      });
+      return form_data;
     }
   ).map(
     function(arr) {
@@ -39,11 +44,23 @@ function getFormData() {
 }
 
 Template.registerHelper("display_date", function(date) {
+  if (!_.isDate(date)) {
+    return "";
+  }
   return dateToyyyyMMdd(date);
 });
 
 Template.registerHelper("display_price", function(price){
-  return Number(price).toLocaleString({}, {style: "currency", currency: "USD"});
+  if (!_.isNumber(price)) {
+    return "";
+  }
+  return Number(price).toLocaleString(
+    {},
+    {
+      style: "currency",
+      currency: "USD",
+    }
+  );
 });
 
 Template.edit_event.events({

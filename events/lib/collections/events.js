@@ -3,6 +3,7 @@ Events = new Mongo.Collection("events");
 SimpleSchema.messages({ dateConflict: "Event ends before it starts" });
 
 const TicketSchema = new SimpleSchema({
+  id: {type: String},
   label: {type: String},
   // remaining: {type: Number},
   total: {type: Number, optional: true},
@@ -51,10 +52,10 @@ Meteor.methods({
 
     const new_event = _.extend(event_attributes, {
       owner: this.userId,
-      username: get_username(), // TODO remove this in the future
       created: new Date()
     });
-    // TODO validate these objects
+
+    console.log(new_event);
 
     const event_id = Events.insert(new_event);
     return event_id;
