@@ -1,19 +1,21 @@
 <head>
   <title>EventBriter</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Oswald:400,300|Roboto' rel='stylesheet' type='text/css'>
+  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
 </head>
 
 <template name="layout">
+  {{#if currentUser}}
   <header>
   {{> navbar}}
   </header>
+  {{/if}}
 
   <div class="container content-wrapper">
     {{> yield}}
   </div>
 
-  <footer class="page-footer">
-  </footer>
+  <!-- <footer class="page-footer"></footer> -->
 </template>
 
 <template name="navbar">
@@ -44,12 +46,13 @@
 </template>
 
 <template name="home">
-  <div class="container">
+  <button class="login btn btn-primary-outline">Login</button>
+  <!-- <div class="container">
     <div><h1>Home</h1></div>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed nibh eu quam laoreet tincidunt. Nullam id elementum dolor, at consectetur leo. Donec porttitor ante vitae odio interdum, id posuere magna posuere. Nunc tincidunt, nunc ut rhoncus fermentum, risus elit rutrum massa, vitae porttitor enim lacus nec ex. Fusce vel lacinia lacus. Curabitur et accumsan mi, condimentum accumsan massa. Fusce dui tellus, ullamcorper sit amet fermentum dignissim, finibus et massa. Mauris vel tempor est, sed dignissim nulla. Integer imperdiet felis a massa tristique dapibus. Donec consectetur ipsum metus, at vestibulum enim feugiat et. Cras ornare mi a dui vestibulum lacinia. In vel nisi sit amet risus ultricies facilisis. Suspendisse ac ligula vel turpis vehicula ultrices vitae in magna. Donec a dolor vehicula, tincidunt dui lacinia, mattis quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     </p>
-  </div>
+  </div> -->
 </template>
 
 <template name="insufficient_permissions">
