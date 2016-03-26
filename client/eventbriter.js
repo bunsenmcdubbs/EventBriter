@@ -2,16 +2,14 @@ Meteor.subscribe("userData");
 
 var links = [
   {
-    href: "/",
-    title: "Home"
-  },
-  {
     href: "/events/",
-    title: "Events"
+    title: "Events",
+    icon: "calendar"
   },
   {
     href: "/events/new",
-    title: "Make a new event!",
+    title: "New Event",
+    icon: "plus",
     private: true
   }
 ];
@@ -27,7 +25,9 @@ Template.navbar.helpers({
   }
 });
 
-Template.navbar.events({
+
+
+Template.home.events({
   "click button.login": function(event) {
     lock.show(function(err, profile, id_token) {
       if (err) {

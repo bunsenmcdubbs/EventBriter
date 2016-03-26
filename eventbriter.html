@@ -1,7 +1,7 @@
 <head>
   <title>EventBriter</title>
   <link href='https://fonts.googleapis.com/css?family=Oswald:400,300|Roboto' rel='stylesheet' type='text/css'>
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 
 <template name="layout">
@@ -19,18 +19,15 @@
 </template>
 
 <template name="navbar">
-  <nav class="navbar navbar-light bg-faded">
-    <a class="navbar-brand" href="#">EventBriter</a>
-    <ul class="nav navbar-nav">
-      {{#each links}}
-      {{#unless hide}}
-      <li class="nav-item {{#if active}}active{{/if}}">
-        <a class="nav-link" href="{{href}}">{{title}} {{#if active}}<span class="sr-only">(current)</span>{{/if}}</a>
-      </li>
-      {{/unless}}
-      {{/each}}
+  <nav>
+    <div class="logo"><a href="/"><img src="/img/eventbriter_logo.png"></a></div>
+    <ul class="menu">
+      {{#each links}}{{#unless hide}}
+      <li class="{{#if active}}active{{/if}}"><a href="{{href}}"><i class="fa fa-{{icon}}"></i>{{title}}</a></li>
+      {{/unless}}{{/each}}
+      <li><a href="#"><i class="fa fa-user"></i>{{currentUser.services.auth0.nickname}}</a></li>
     </ul>
-    {{> account_button}}
+    <!-- {{> account_button}} -->
   </nav>
 </template>
 
