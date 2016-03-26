@@ -22,3 +22,5 @@ check
 auth0:lock
 markdown
 aldeed:collection2
+reactive-dict
+reactive-var

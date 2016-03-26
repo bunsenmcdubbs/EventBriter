@@ -1,6 +1,17 @@
 Events = new Mongo.Collection("events");
 
 SimpleSchema.messages({ dateConflict: "Event ends before it starts" });
+
+const TicketSchema = new SimpleSchema({
+  id: {type: String},
+  label: {type: String},
+  // remaining: {type: Number},
+  total: {type: Number, optional: true},
+  max_per_person: {type: Number, optional: true},
+  sold: {type: [String], optional: true},
+  price: {type: Number, optional: true},
+});
+
 Events.schema = new SimpleSchema({
   name: {type: String},
   location: {type: String},
@@ -16,8 +27,10 @@ Events.schema = new SimpleSchema({
   },
   created: {type: Date},
   owner: {type: String, regEx: SimpleSchema.RegEx.Id},
-  description: {type: String, optional: true}
-  // TODO add tickets and orders
+  description: {type: String, optional: true},
+  tickets: {type: [TicketSchema]},
+
+  // TODO add orders
 });
 
 // Schema validation
@@ -39,9 +52,10 @@ Meteor.methods({
 
     const new_event = _.extend(event_attributes, {
       owner: this.userId,
-      username: get_username(), // TODO remove this in the future
       created: new Date()
     });
+
+    console.log(new_event);
 
     const event_id = Events.insert(new_event);
     return event_id;
@@ -73,19 +87,23 @@ Meteor.methods({
       "start",
       "end",
       "description",
+      "tickets",
     ];
 
+    // TODO check how this works with a blank description
+    // (automatically inserting $unset)
     const changes = { $set: {} };
     for (let key of fields) {
-      // checking for inequality this way to take advantage of Date's properties
-      if (old_event[key] > event[key] || old_event[key] < event[key]) {
+      if (!_.isEqual(old_event[key], event[key])) {
         changes.$set[key] = event[key];
       }
     }
 
-    // check if there were any changes, return false if none
+    console.log(changes);
+
+    // check if there were any changes
     if (Object.keys(changes.$set).length === 0) {
-      return false;
+      throw new Meteor.Error("no_change", "no edits have been made to the event");
     }
 
     return Events.update({_id: event_id}, changes) == 1; // successfully updated 1 object
