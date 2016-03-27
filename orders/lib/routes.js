@@ -1,11 +1,11 @@
-Router.route("/order/pending/:order_id", {
-  // TODO add 404 error handling
-  action: function() {
-    const order_id = this.params.order_id;
-    this.redirect("order.create.attendee_info", {order_id: order_id});
-  },
-  name: "order.create",
-});
+// Router.route("/order/pending/:order_id", {
+//   // TODO add 404 error handling
+//   action: function() {
+//     const order_id = this.params.order_id;
+//     this.redirect("order.create.attendee_info", {order_id: order_id});
+//   },
+//   name: "order.create",
+// });
 
 Router.route("/order/pending/:order_id/attendee_info", {
   data: function() {

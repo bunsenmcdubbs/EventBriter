@@ -54,6 +54,9 @@ Template.registerHelper("display_price", function(price){
   if (!_.isNumber(price)) {
     return "";
   }
+  if (price === 0) {
+    return "Free";
+  }
   return Number(price).toLocaleString(
     {},
     {

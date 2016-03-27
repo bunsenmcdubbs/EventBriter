@@ -19,13 +19,20 @@
       No description available
     {{/if}}
   </div>
-  <div class="list-group">
-    {{ #each ticket in (ticket_list tickets) }}
-    <div class="list-group-item">
-      {{> view_ticket_choice ticket=ticket }}
+  <form class="js-claim-tickets">
+    <div class="list-group">
+      {{ #each ticket in (ticket_list tickets) }}
+      <div class="form-group list-group-item">
+        {{> view_ticket_choice ticket=ticket }}
+      </div>
+      {{ /each }}
     </div>
-    {{ /each }}
-  </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary js-claim-tickets-btn">
+        Register
+      </button>
+    </div>
+  </form>
 
   {{#if isOwner}}
   <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>

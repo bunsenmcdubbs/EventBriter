@@ -4,25 +4,22 @@
     <div class="col-md-8">
       {{ ticket.label }}
     </div>
-    <div class="col-md-2">
-      <!-- TODO block helper to display money amounts -->
+    <div class="col-md-1">
       {{ display_price ticket.price }}
     </div>
     <div class="col-md-2">
       Avail. {{ ticket.remaining }} / {{ ticket.total }}
     </div>
     <!-- TODO add this back in later -->
-    <!-- <div class="col-md-2">
+    <div class="col-md-1">
       <div class="input-group">
-        <span class="input-group-btn">
-          <button class="btn btn-secondary" type="button">+</button>
-        </span>
-        <input type="text" class="form-control" placeholder="0">
-        <span class="input-group-btn">
-          <button class="btn btn-secondary" type="button">-</button>
-        </span>
+        <select class="js-ticket-number" name="{{ticket.id}}">
+          {{#each option in (options ticket)}}
+          <option value={{option}}>{{option}}</option>
+          {{/each}}
+        </select>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 

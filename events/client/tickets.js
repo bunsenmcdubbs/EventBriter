@@ -5,20 +5,48 @@ Template.view_event.helpers({
   },
 });
 
+Template.view_ticket_choice.helpers({
+  options: function(ticket) {
+    let max_per_person = ticket.max_per_person;
+    if (ticket.max_per_person === undefined || ticket.max_per_person < 0) {
+      max_per_person = ticket.remaining;
+    }
+    return (_.range(max_per_person + 1));
+  },
+});
+
 Template.view_event.events({
-  "click .js-ticket": function(event, instance){
-    const ticket_id = event.currentTarget.dataset.ticketId;
+  "submit .js-claim-tickets": function(event, instance){
+    event.preventDefault();
+
     const event_id = instance.data._id;
-    const tickets = {};
-    tickets[ticket_id] = 1;
+
+    const raw_ticket_claims = instance.$(event.currentTarget).serializeArray();
+    const tickets = _(raw_ticket_claims)
+    .chain()
+    .filter(function(ticket_claim) {
+      return _(ticket_claim.value).isNumber &&
+        Number(ticket_claim.value) > 0;
+    })
     // TODO verify # of tickets selected is respectively below `max_per_person`
+    .map(function(ticket_claim) {
+      return [ticket_claim.name, Number(ticket_claim.value)];
+    })
+    .object()
+    .value();
+
+    // if no valid tickets selected, stop and warn
+    if (Object.keys(tickets).length === 0) {
+      throw new Meteor.Error("invalid_ticket", "no valid tickets selected");
+    }
+
     const order_id = Meteor.call("createPendingOrder", event_id, tickets,
       function(error, order_id) {
         if (error) {
           console.log("error", error);
         } else {
           console.log(order_id);
-          Router.go("order.create", {order_id: order_id});
+          Router.go("order.create.attendee_info", {order_id: order_id});
         }
       }
     );
