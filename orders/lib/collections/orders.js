@@ -52,8 +52,6 @@ Meteor.methods({
       }
     }
 
-    console.log(requested_tickets);
-
     const new_order = {
       user_id: this.userId,
       event_id: eventId,
@@ -64,5 +62,42 @@ Meteor.methods({
 
     const order_id = Orders.insert(new_order);
     return order_id;
-  }
+  },
+  finalizeOrder: function(event_id, order_id, ticket_array) {
+    // TODO ensure order is still pending
+    if (!Orders.findOne({_id: order_id}).pending) {
+      throw new Meteor.Error("order_error", "tickets have already been generated");
+    }
+    // TODO implement rollbacks
+    const ticket_ids = Meteor.call("insertTickets", event_id, ticket_array);
+
+    // insert sold ticket_ids into the event.tickets -> sold array
+    _(ticket_ids).each(function(ticket_id) {
+      const ticket_type = Tickets.findOne({_id: ticket_id}).type;
+      const success = Meteor.call("_addSoldTicket", event_id, ticket_type, ticket_id);
+      if (!success) {
+        console.log("SUPER FAIL");
+      }
+    });
+
+    let success = Meteor.call("_addOrder", event_id, order_id);
+    if (!success) {
+      console.log("SUPER FAIL2");
+    }
+
+    const order_tickets = _(ticket_ids).map(function(ticket_id) {
+      return {
+        ticket_id: ticket_id,
+      };
+    });
+
+    Orders.update({_id: order_id}, {
+      $set: {
+        pending: false,
+        tickets: order_tickets,
+      },
+    });
+
+    return ticket_ids;
+  },
 });

@@ -29,8 +29,7 @@ Events.schema = new SimpleSchema({
   owner: {type: String, regEx: SimpleSchema.RegEx.Id},
   description: {type: String, optional: true},
   tickets: {type: [TicketSchema]},
-
-  // TODO add orders
+  orders: {type: [String], regEx: SimpleSchema.RegEx.Id, optional: true},
 });
 
 // Schema validation
@@ -107,6 +106,47 @@ Meteor.methods({
     }
 
     return Events.update({_id: event_id}, changes) == 1; // successfully updated 1 object
-  }
+  },
+  _addOrder: function(event_id, order_id) {
+    // const orders = Events.findOne({_id: event_id}).orders;
+    // assert orders does not contain order_id
 
+    const push_new_order = {
+      $push: {
+        "orders": order_id
+      }
+    };
+
+    console.log(event_id, order_id, push_new_order);
+    return Events.update({_id: event_id}, push_new_order);
+  },
+  _addSoldTicket: function(event_id, ticket_type, ticket_id) {
+    // TODO validation
+
+    const event = Events.findOne({_id: event_id});
+    let ind = 0;
+    for (; ind < event.tickets.length; ind++) {
+      if (event.tickets[ind].id === ticket_type) {
+        break;
+      }
+    }
+    const ticket_def = event.tickets[ind];
+    // assert ticket_def.type === ticket_type
+
+    // confirm the are enough remaining tickets
+    const num_sold = !! ticket_def.sold ? ticket_def.sold.length : 0;
+    if (ticket_def.total - num_sold < 1) {
+      throw new Meteor.Error("insufficient_tickets_remaining",
+        "there are not enough tickets available to complete this order");
+    }
+
+    // TODO FIXME, squash error that is being returned
+    const field = "tickets." + ind + ".sold";
+    const push_sold_ticket = {
+      $push: {},
+    };
+    push_sold_ticket.$push[field] = ticket_id;
+
+    return Events.update({_id: event_id}, push_sold_ticket) === 1;
+  }
 });
