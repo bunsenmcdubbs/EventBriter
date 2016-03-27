@@ -1,0 +1,103 @@
+var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
+      {
+        // domain: domain
+        connection_strategy: new WebtaskStrategy({ endpoint: 'https://webtask.it.auth0.com/api/run/wt-5491169046745-0/update_user_profile?webtask_no_cache=1' })
+      },
+      [
+        { id:"customName", type:"custom", attribute:"name", render: function(data) {
+
+          var value = data.value || "";
+
+          if ( value === "" ) return null;
+          
+          return '<div class="custom-field">Hi <b>'+value+'</b>!</div>';
+
+        } },
+        { label: "Name", type:"text", attribute:"name", 
+          validation: function(name){return (name.length > 10 ? 'The name is too long' : null);},
+          onChange: function(value){ 
+            
+            console.log('Name changed:', value);
+
+            editProfileWidget.updateFieldById('customName', {
+              value:value
+            }); 
+            editProfileWidget.updateFieldById('field_text_lastname', {
+              value:value + " LASTNAME"
+            }); 
+          }
+        },
+        { label: "Lastname", type:"text", attribute:"lastname" },
+        { label: "BirthDay", type:"date", attribute:"birthday" },
+        { label: "Email", type:"email", attribute:"email" },
+        { label: "Bio", type:"textarea", attribute:"bio",
+          onChange: function(value){ 
+            
+            console.log('Bio changed:', value);
+
+          }
+        },
+        { label: "Type", type:"select", attribute:"account_type", options:[
+          { value: "type_1", text:"Type 1"},
+          { value: "type_2", text:"Type 2"},
+          { value: "type_3", text:"Type 3"}
+        ],
+          onChange: function(value){ 
+            
+            console.log('Type changed:', value);
+
+          }
+        },
+        { label: "Options", type:"radio", attribute:"account_options", options:[
+          { value: "opt_1", text:"Option 1"},
+          { value: "opt_2", text:"Option 2"},
+          { value: "opt_3", text:"Option 3"}
+        ],
+          onChange: function(value){ 
+            
+            console.log('Options changed:', value);
+
+          }
+        },
+        { label: "Checks", type:"checkbox", attribute:"account_checks", options:[
+          { value: "chk_1", text:"Check 1"},
+          { value: "chk_2", text:"Check 2"},
+          { value: "chk_3", text:"Check 3"}
+        ],
+          onChange: function(value){ 
+            
+            console.log('Checks changed:', value);
+
+          }
+        }
+      ]);
+
+lock.show({closable: false},function (err, profile, user_token) {
+
+  var userInfoElement = document.getElementById('user-info');
+
+  userInfoElement.innerHTML += '<img src="'+profile.picture+'" />';
+  userInfoElement.innerHTML += '<span class="name">'+ profile.nickname +'</span>';
+
+  editProfileWidget
+      .on('loading', function() {
+        console.log('loading')
+      })
+      .on('loaded', function(data) {
+        console.log('loaded', data)
+      })
+      .on('submit', function(data) {
+        console.log('submited', data)
+      })
+      .on('save', function(data){
+        console.log('saved', data);
+        document.getElementById('saved').className = "";
+        setTimeout(function(){
+          document.getElementById('saved').className = "hidden";
+        }, 3000);
+      })
+      .on('error', function(data){
+        console.log('error', data);
+      })
+      .init(user_token);
+});
