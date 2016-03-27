@@ -26,6 +26,14 @@ nav .menu {
     padding: 35px 0;
 }
 
+nav .logo:hover {
+    transform: scale(1.05, 1.05) rotate(-3deg);
+}
+
+nav .logo {
+    transition: all .3s;
+}
+
 nav .logo img {
     height: 100px;
 }
@@ -47,6 +55,7 @@ nav .menu a {
     text-decoration: none;
     text-transform: uppercase;
     line-height: 30px;
+    padding: 5px;
 }
 
 nav .menu a i {
@@ -54,8 +63,8 @@ nav .menu a i {
     font-size: 20px;
 }
 
-nav .menu a:hover {
-    color: #FA969B;
+nav .menu a:hover, nav .menu a.active {
+    background: #FFF;
 }
 
 .container {
@@ -104,16 +113,56 @@ ul.event-list li a small {
     text-transform: uppercase;
     font-size: 17px;
     font-weight: 300;
+    position: relative;
+    width: 50px;
+    height: 45px;
+    transition: all .3s;
+    text-align: center;
 }
 
 .button a {
     display: block;
-    padding: 10px;
     text-decoration: none;
     color: #FFF;
     transition: all .3s;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
 }
 
-.button a:hover {
-    padding: 10px 25px;
+.button:hover {
+    width: 115px;
+}
+
+.button span {
+    display: block;
+    position: absolute;
+    width: 70px;
+    text-align: center;
+    left: 50%;
+    margin-left: -35px;
+    margin-top: 10px;
+    opacity: 0;
+    transition: all .5s;
+}
+
+.button:hover span {
+    opacity: 1;
+    margin-top: 0;
+}
+
+.button:hover i {
+    margin-top: -30px;
+    opacity: 0;
+}
+
+.button i {
+    position: absolute;
+    width: 16px;
+    height: 18px;
+    left: 50%;
+    margin-left: -8px;
+    top: 50%;
+    margin-top: -7px;
+    transition: all .5s;
 }
