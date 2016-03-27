@@ -97,3 +97,20 @@ Template.edit_event.events({
     }
   }
 });
+
+Template.event_listing.events({
+  "click #add-event-btn": function(event) {
+    $('#add-event-modal').addClass('active');
+  },
+  "mouseover #add-event-btn": function(event) {
+    $('#add-event-modal').addClass('preview');
+  },
+  "mouseleave #add-event-btn": function(event) {
+    $('#add-event-modal').removeClass('preview');
+  },
+  "click .modal-back": function(event) {
+    $('.modal').removeClass('active');
+  }
+});
+
+
