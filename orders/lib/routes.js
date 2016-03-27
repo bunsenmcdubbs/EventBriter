@@ -46,25 +46,29 @@ Router.route("/order/pending/:order_id/payment", {
   name: "order.create.payment_info",
 });
 
+function _getPopulatedOrder(order_id) {
+  const order = Orders.findOne({
+    _id: order_id,
+  });
+
+  order.event = Events.findOne({_id: order.event_id});
+
+  order.tickets = _(order.tickets)
+  .chain()
+  .pluck("ticket_id")
+  .map(function(ticket_id) {
+    const ticket = Tickets.findOne({_id: ticket_id});
+    return ticket;
+  })
+  .value();
+
+  return order;
+}
+
 Router.route("/order/:order_id/receipt", {
   data: function() {
     const order_id = this.params.order_id;
-    const order = Orders.findOne({
-      _id: order_id,
-    });
-
-    order.event = Events.findOne({_id: order.event_id});
-
-    order.tickets = _(order.tickets)
-    .chain()
-    .pluck("ticket_id")
-    .map(function(ticket_id) {
-      const ticket = Tickets.findOne({_id: ticket_id});
-      return ticket;
-    })
-    .value();
-
-    return order;
+    return _getPopulatedOrder(order_id);
   },
   template: "order_receipt",
   name: "order.receipt",
@@ -79,4 +83,15 @@ Router.route("/order/:order_id/attendee_info", {
   },
   template: "order_edit_attendee_info",
   name: "order.edit.attendee_info",
+});
+
+// TODO protect this route
+Router.route("/order/mine", {
+  data: function() {
+    const order_ids = Meteor.user().orders;
+    const orders = _(order_ids).map(_getPopulatedOrder);
+    return {orders: orders};
+  },
+  template: "order_mine",
+  name: "order.by_user"
 });

@@ -61,6 +61,10 @@ Meteor.methods({
     };
 
     const order_id = Orders.insert(new_order);
+
+    // TODO check if this failed
+    Meteor.call("_addOrderToUser", order_id);
+
     return order_id;
   },
   finalizeOrder: function(event_id, order_id, ticket_array) {

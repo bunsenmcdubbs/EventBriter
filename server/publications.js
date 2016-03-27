@@ -6,7 +6,9 @@ Meteor.publish("userData", function () {
       },
       {
         fields: {
-          'services': 1
+          'services': 1,
+          'orders': 1,
+          'events': 1,
         }
       }
     );

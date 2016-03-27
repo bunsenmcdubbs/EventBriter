@@ -3,11 +3,16 @@ Meteor.subscribe("userData");
 var links = [
   {
     href: "/",
-    title: "Home"
+    title: "Home",
   },
   {
     href: "/events/",
-    title: "Events"
+    title: "Events",
+  },
+  {
+    href: "/order/mine",
+    title: "My Orders",
+    private: true,
   },
   // {
   //   href: "/events/new",
