@@ -1,6 +1,11 @@
 <template name="event_listing">
   <div class="list-group">
     <h1>Upcoming Events</h1>
+    {{#if currentUser }}
+    <a href="/events/new">
+      <button class="btn btn-primary">Make a new event</button>
+    </a>
+    {{/if}}
     {{#each event in event_list}}
     <a href="/events/{{event._id}}" class="list-group-item">
       <!-- TODO add block helper in html to convert dates to friendly strings -->

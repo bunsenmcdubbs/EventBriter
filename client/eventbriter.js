@@ -9,11 +9,11 @@ var links = [
     href: "/events/",
     title: "Events"
   },
-  {
-    href: "/events/new",
-    title: "Make a new event!",
-    private: true
-  }
+  // {
+  //   href: "/events/new",
+  //   title: "Make a new event!",
+  //   private: true
+  // }
 ];
 
 // TODO implement active flag
