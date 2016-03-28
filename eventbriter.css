@@ -84,13 +84,15 @@ ul.event-list {
 ul.event-list li {
     background: #FFF;
     border-bottom: 1px solid #D9D9D9;
+    height: 60px;
+    overflow: hidden;
 }
 
 ul.event-list li:hover {
-    opacity: .75;
+    background: #FAFAFA;
 }
 
-ul.event-list li a {
+ul.event-list li a.event-list-bar {
   display: block;
   padding: 15px;
   font-size: 20px;
@@ -101,6 +103,28 @@ ul.event-list li a {
 ul.event-list li a small {
     opacity: .25;
     margin-left: 5px;
+}
+
+.event-list .options {
+    opacity: 0;
+    margin-top: 20px;
+    transition: all .3s .3s;
+}
+
+.event-list li:hover .options {
+    opacity: 1;
+    margin-top: 0;
+}
+
+.event-list .options i {
+    padding: 15px 0;
+    padding-right: 15px;
+    line-height: 30px;
+    color: #404040;
+}
+
+.event-list .options i:hover {
+    color: #111;
 }
 
 .float-right {
@@ -176,7 +200,7 @@ ul.event-list li a small {
     overflow: hidden;
     bottom: 0;
     transition: all .5s;
-    padding: 0 20px;
+    padding: 20px;
     left: 50%;
     margin-left: -250px;
     margin-bottom: -300px;
@@ -207,4 +231,19 @@ ul.event-list li a small {
 .modal.active ~ .modal-back {
     visibility: visible;
     opacity: 1;
+}
+
+form.create_event span.form-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+form.create_event input[name="name"] {
+    display: block;
+    font-size: 25px;
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    margin: 5px 0;
 }

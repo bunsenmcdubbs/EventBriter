@@ -7,12 +7,6 @@ var links = [
     icon: "calendar"
   },
   {
-    href: "/events/new",
-    title: "New Event",
-    icon: "plus",
-    private: true
-  },
-  {
     href: "/order/mine",
     title: "My Orders",
     icon: 'ticket',

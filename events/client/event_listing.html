@@ -5,7 +5,14 @@
   <ul class="event-list">
     {{#each event in event_list}}
     <li>
-      <a href="/events/{{event._id}}">
+      <!-- TODO only show options if event belongs to user -->
+      <div class="options float-right">
+        <a href="/events/{{event._id}}" title="View"><i class="fa fa-eye"></i></a>
+        <a href="/events/{{event._id}}/edit" title="Edit"><i class="fa fa-pencil"></i></a>
+        <a href="/events/{{event._id}}/manage" title="Manage"><i class="fa fa-users"></i></a>
+        <a href="#" title="Delete"><i class="fa fa-trash"></i></a>
+      </div>
+      <a href="/events/{{event._id}}" class="event-list-bar">
         <!-- TODO add block helper in html to convert dates to friendly strings -->
         <strong>{{ event.name }}</strong> at {{ event.location }}
         <small>{{ display_date event.start }} to {{ display_date event.end }}</small>
@@ -16,8 +23,18 @@
   {{else}}
   <span>There are no events to show.</span>
   {{/if}}
-  <div class="modal" id="add-event-modal">
-    <h2>Add an Event</h2>
-  </div>
+  {{> add_event_modal}}
   <div class="modal-back"></div>
+</template>
+
+<template name="add_event_modal">
+  <div class="modal" id="add-event-modal">
+    <form class="create_event">
+      <span class="form-title">Add an Event</span>
+      <input type="text" name="name" placeholder="Event Name">
+      Location: <input type="text" name="location"><br>
+      Date: <input type="date" name="start" placeholder="Start Date"> to <input type="date" name="end" placeholder="End Date"><br>
+      <textarea name="description" rows="4" class="form-control"></textarea>
+    </form>
+  </div>
 </template>
