@@ -11,6 +11,12 @@ var links = [
     title: "New Event",
     icon: "plus",
     private: true
+  },
+  {
+    href: "/order/mine",
+    title: "My Orders",
+    icon: 'ticket',
+    private: true
   }
 ];
 

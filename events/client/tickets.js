@@ -5,6 +5,26 @@ Template.view_event.helpers({
   },
 });
 
+Template.view_event.events({
+  "click .js-ticket": function(event, instance){
+    const ticket_id = event.currentTarget.dataset.ticketId;
+    const event_id = instance.data._id;
+    const tickets = {};
+    tickets[ticket_id] = 1;
+    // TODO verify # of tickets selected is respectively below `max_per_person`
+    const order_id = Meteor.call("createPendingOrder", event_id, tickets,
+      function(error, order_id) {
+        if (error) {
+          console.log("error", error);
+        } else {
+          console.log(order_id);
+          Router.go("order.create", {order_id: order_id});
+        }
+      }
+    );
+  },
+});
+
 Template.edit_event.helpers({
   ticket_list: function(tickets) {
     const list = tickets.get();

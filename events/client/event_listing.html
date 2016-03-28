@@ -1,5 +1,5 @@
 <template name="event_listing">
-  <div class="button float-right" id="add-event-btn"><a><i class="fa fa-plus"></i><span>New Event</span></a></div>
+  {{#if currentUser }}<div class="button float-right" id="add-event-btn"><a><i class="fa fa-plus"></i><span>New Event</span></a></div>{{/if}}
   <h1>Upcoming Events</h1>
   {{#if event_list.count}}
   <ul class="event-list">

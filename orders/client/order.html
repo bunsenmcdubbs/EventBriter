@@ -1,0 +1,31 @@
+<template name="order_edit_single_attendee_info">
+  <div class="card card-block" data-ticket-id="{{ticket._id}}">
+    <h2 class="card-title">Ticket #{{ticket._id}} for type {{ticket.type}} Event #{{ticket.event_id}}</h2>
+    <form class="row edit-attendee-info">
+      <!-- TODO replace this with reactive/databinding -->
+      <input type="hidden" name="_id" value="{{ticket._id}}">
+      <input type="hidden" name="type" value="{{ticket.type}}">
+      <input type="hidden" name="event_id" value="{{ticket.event_id}}">
+      <input type="hidden" name="order_id" value="{{ticket.order_id}}">
+      <fieldset class="form-group col-xs-12">
+        <input type="text" name="name" class="form-control"
+          value="{{ticket.attendee_info.name}}" placeholder="name">
+      </fieldset>
+      <fieldset class="form-group col-xs-6">
+        <input type="tel" name="phone" class="form-control"
+          value="{{ticket.attendee_info.phone}}" placeholder="phone">
+      </fieldset>
+      <fieldset class="form-group col-xs-6">
+        <input type="email" name="email" class="form-control"
+          value="{{ticket.attendee_info.email}}" placeholder="email">
+      </fieldset>
+    </form>
+  </div>
+</template>
+
+<template name="order_edit_attendee_info">
+  {{#each ticket in tickets}}
+  {{> order_edit_single_attendee_info ticket=ticket}}
+  {{/each}}
+  <button class="btn btn-primary js-save-attendee-info">Save</button>
+</template>
