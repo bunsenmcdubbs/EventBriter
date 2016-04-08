@@ -1,5 +1,3 @@
-Meteor.subscribe("Orders");
-
 Template.order_edit_attendee_info.events({
   "click .js-save-attendee-info": function(event, instance){
     event.preventDefault();

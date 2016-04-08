@@ -1,5 +1,3 @@
-Meteor.subscribe("Events");
-
 const FORM_ID = "form.edit_event";
 
 // TODO change into reactive variable/dictionary
