@@ -24,19 +24,18 @@ Template.registerHelper("display_price", function(price){
 Template.registerHelper("get_val", function(r_v){
   r_v = r_v || arguments[0];
   const val = r_v.get();
-  console.log("reactive var:", val);
   return val;
 });
 
 Template.registerHelper("object_keys", function(object){
   object = object || arguments[0];
-  return Object.keys(object);
+  const keys = Object.keys(object);
+  return keys;
 });
 
 Template.registerHelper("object_values", function(object){
   object = object || arguments[0];
   // TODO eventually change to `Object.values(object)` once that is standardized
   const vals = _(object).values();
-  console.log("object values:", vals);
   return vals;
 });
