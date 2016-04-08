@@ -9,7 +9,6 @@ EventController = RouteController.extend({
     if (!event) { console.log("No event found"); }
     event.isOwner = ownsEvent(Meteor.userId(), event);
     event.owner = getPublicUserInfo(event.owner_id);
-    console.log(event);
 
     // calculate remaining tickets
     if (event.tickets) {

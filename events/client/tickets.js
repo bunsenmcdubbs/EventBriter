@@ -1,10 +1,3 @@
-Template.view_event.helpers({
-  ticket_list: function(tickets) {
-    const list = tickets.get();
-    return list;
-  },
-});
-
 Template.view_ticket_choice.helpers({
   options: function(ticket) {
     let max_per_person = ticket.max_per_person;
@@ -52,13 +45,6 @@ Template.view_event.events({
         }
       }
     );
-  },
-});
-
-Template.edit_event.helpers({
-  ticket_list: function(tickets) {
-    const list = tickets.get();
-    return list;
   },
 });
 

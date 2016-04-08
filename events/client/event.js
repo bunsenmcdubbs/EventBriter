@@ -41,29 +41,6 @@ function getFormData() {
   return form_data;
 }
 
-Template.registerHelper("display_date", function(date) {
-  if (!_.isDate(date)) {
-    return "";
-  }
-  return dateToyyyyMMdd(date);
-});
-
-Template.registerHelper("display_price", function(price){
-  if (!_.isNumber(price)) {
-    return "";
-  }
-  if (price === 0) {
-    return "Free";
-  }
-  return Number(price).toLocaleString(
-    {},
-    {
-      style: "currency",
-      currency: "USD",
-    }
-  );
-});
-
 Template.edit_event.events({
   "submit form.edit_event": function(event, instance) {
     event.preventDefault();
@@ -97,4 +74,8 @@ Template.edit_event.events({
       });
     }
   }
+});
+
+Template.manage_event.helpers({
+  get_orders: function() {}
 });

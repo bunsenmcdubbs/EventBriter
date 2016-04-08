@@ -5,28 +5,7 @@
       <a class="js-edit-order btn btn-primary-outline">Edit</a>
     </div>
     <div class="card-block">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Ticket #</th>
-            <th>Ticket Type</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each ticket in tickets}}
-          <tr>
-            <td>{{ticket._id}}</td>
-            <td>{{get_ticket_label ticket.event ticket.type}}</td>
-            <td>{{ticket.attendee_info.name}}</td>
-            <td>{{ticket.attendee_info.email}}</td>
-            <td>{{ticket.attendee_info.phone}}</td>
-          </tr>
-          {{/each}}
-        </tbody>
-      </table>
+      {{> ticket_table tickets=tickets}}
     </div>
   </div>
 </template>
