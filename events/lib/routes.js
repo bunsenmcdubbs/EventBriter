@@ -13,7 +13,8 @@ EventController = RouteController.extend({
     if (event.tickets) {
       for (let ticket of event.tickets) {
         ticket.total = ticket.total || 0;
-        ticket.remaining = ticket.total - (ticket.sold || []).length;
+        const num_sold = Object.keys(ticket.sold).length || 0;
+        ticket.remaining = ticket.total - num_sold;
       }
     }
     event.tickets = new ReactiveVar(event.tickets || []);

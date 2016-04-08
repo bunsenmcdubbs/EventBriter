@@ -21,6 +21,8 @@ Template.view_event.events({
 
     const event_id = instance.data._id;
 
+    // create a map of ticket type ids to number of tickets
+    // requested of that type
     const raw_ticket_claims = instance.$(event.currentTarget).serializeArray();
     const tickets = _(raw_ticket_claims)
     .chain()
@@ -40,7 +42,7 @@ Template.view_event.events({
       throw new Meteor.Error("invalid_ticket", "no valid tickets selected");
     }
 
-    const order_id = Meteor.call("createPendingOrder", event_id, tickets,
+    Meteor.call("createAndInsertPendingOrder", event_id, tickets,
       function(error, order_id) {
         if (error) {
           console.log("error", error);

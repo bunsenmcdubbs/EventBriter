@@ -2,13 +2,13 @@ Events = new Mongo.Collection("events");
 
 SimpleSchema.messages({ dateConflict: "Event ends before it starts" });
 
-const TicketSchema = new SimpleSchema({
+const TicketDefSchema = new SimpleSchema({
   id: {type: String},
   label: {type: String},
   // remaining: {type: Number},
   total: {type: Number, optional: true},
   max_per_person: {type: Number, optional: true},
-  sold: {type: [String], optional: true},
+  sold: {type: Object, blackbox: true, optional: true},
   price: {type: Number, optional: true},
 });
 
@@ -28,7 +28,7 @@ Events.schema = new SimpleSchema({
   created: {type: Date},
   owner: {type: String, regEx: SimpleSchema.RegEx.Id},
   description: {type: String, optional: true},
-  tickets: {type: [TicketSchema]},
+  tickets: {type: [TicketDefSchema]},
   orders: {type: [String], regEx: SimpleSchema.RegEx.Id, optional: true},
 });
 
@@ -107,7 +107,7 @@ Meteor.methods({
 
     return Events.update({_id: event_id}, changes) == 1; // successfully updated 1 object
   },
-  _addOrder: function(event_id, order_id) {
+  _addOrderToEvent: function(event_id, order_id) {
     // const orders = Events.findOne({_id: event_id}).orders;
     // assert orders does not contain order_id
 
@@ -120,18 +120,18 @@ Meteor.methods({
     console.log(event_id, order_id, push_new_order);
     return Events.update({_id: event_id}, push_new_order);
   },
-  _addSoldTicket: function(event_id, ticket_type, ticket_id) {
+  _addSoldTicketToEvent: function(event_id, ticket) {
     // TODO validation
 
     const event = Events.findOne({_id: event_id});
     let ind = 0;
     for (; ind < event.tickets.length; ind++) {
-      if (event.tickets[ind].id === ticket_type) {
+      if (event.tickets[ind].id === ticket.type) {
         break;
       }
     }
     const ticket_def = event.tickets[ind];
-    // assert ticket_def.type === ticket_type
+    // assert ticket_def.type === ticket.type
 
     // confirm the are enough remaining tickets
     const num_sold = !! ticket_def.sold ? ticket_def.sold.length : 0;
@@ -141,12 +141,14 @@ Meteor.methods({
     }
 
     // TODO FIXME, squash error that is being returned
-    const field = "tickets." + ind + ".sold";
-    const push_sold_ticket = {
-      $push: {},
+    const field = "tickets." + ind + ".sold." + ticket._id;
+    const add_sold_ticket = {
+      $set: {},
     };
-    push_sold_ticket.$push[field] = ticket_id;
+    add_sold_ticket.$set[field] = ticket;
 
-    return Events.update({_id: event_id}, push_sold_ticket) === 1;
+    console.log(add_sold_ticket);
+
+    return Events.update({_id: event_id}, add_sold_ticket) === 1;
   }
 });

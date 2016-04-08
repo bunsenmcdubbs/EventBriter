@@ -5,8 +5,8 @@
   {{else}}
   <h3>No completed orders</h3>
   {{/if}}
-  <!-- <h2>Pending Orders</h2>
-  {{> order_list (filter_pending_orders orders) }} -->
+  <h2>Pending Orders</h2>
+  {{> order_list (filter_pending_orders orders) }}
 </template>
 
 <!-- orders => array of order objects -->
@@ -14,9 +14,4 @@
   {{#each order in orders}}
     {{> order_receipt order}}
   {{/each}}
-</template>
-
-<!-- pending_orders => array of order objects {pending: true} -->
-<template name="pending_order_list">
-
 </template>

@@ -8,6 +8,8 @@ Template.order_edit_attendee_info.events({
       const event_id = instance.data.event_id;
       const order_id = instance.data._id;
 
+      // reconstruct ticket objects from form data
+      // get form data (one form per ticket)
       const forms = instance.$("form.edit-attendee-info");
       const attendees_info_raw = _(forms).map(function(form) {
         // TODO i'm so sorry, this code looks awful and I know it
@@ -17,8 +19,13 @@ Template.order_edit_attendee_info.events({
           }
         )).object();
       });
-      const attendees_info = _(attendees_info_raw).map(function(info) {
+      // construct array of reconstructed ticket data
+      const attendees_info = _(attendees_info_raw)
+      .map(function(info) {
+        // TODO check that unchanged info has not changed
+        // e.g. asset _id, event_id, order_id, and type have not changed
         return {
+          _id: info._id,
           event: info.event_id,
           order: info.order_id,
           type: info.type,
