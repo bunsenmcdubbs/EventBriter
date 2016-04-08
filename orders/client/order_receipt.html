@@ -1,27 +1,32 @@
 <template name="order_receipt">
-  <div class="card card-block">
-    <h3 class="card-title">Order #{{_id}} for {{event.name}}</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Ticket #</th>
-          <th>Ticket Type</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each ticket in tickets}}
-        <tr>
-          <td>{{ticket._id}}</td>
-          <td>{{get_ticket_label ticket.type}}</td>
-          <td>{{ticket.attendee_info.name}}</td>
-          <td>{{ticket.attendee_info.email}}</td>
-          <td>{{ticket.attendee_info.phone}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+  <div class="card">
+    <div class="card-header">
+      <h3>Order #{{_id}} for {{event.name}}</h3>
+      <a class="js-edit-order btn btn-primary-outline">Edit</a>
+    </div>
+    <div class="card-block">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ticket #</th>
+            <th>Ticket Type</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each ticket in tickets}}
+          <tr>
+            <td>{{ticket._id}}</td>
+            <td>{{get_ticket_label ticket.type}}</td>
+            <td>{{ticket.attendee_info.name}}</td>
+            <td>{{ticket.attendee_info.email}}</td>
+            <td>{{ticket.attendee_info.phone}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>

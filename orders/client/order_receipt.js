@@ -10,3 +10,14 @@ Template.order_receipt.helpers({
     return ticket_label;
   },
 });
+
+Template.order_receipt.events({
+  "click .js-edit-order": function(event, instance) {
+    const order = instance.data;
+    if (order.pending) {
+      Router.go('order.create.attendee_info', {order_id: order._id});
+    } else {
+      Router.go('order.edit.attendee_info', {order_id: order._id});
+    }
+  }
+});

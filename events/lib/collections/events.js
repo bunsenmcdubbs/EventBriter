@@ -140,15 +140,34 @@ Meteor.methods({
         "there are not enough tickets available to complete this order");
     }
 
-    // TODO FIXME, squash error that is being returned
     const field = "tickets." + ind + ".sold." + ticket._id;
     const add_sold_ticket = {
       $set: {},
     };
     add_sold_ticket.$set[field] = ticket;
-
-    console.log(add_sold_ticket);
-
     return Events.update({_id: event_id}, add_sold_ticket) === 1;
+  },
+  _updateTicketInfo: function(event_id, ticket) {
+    // TODO validation
+    const event = Events.findOne({_id: event_id});
+    const ticket_types = event.tickets;
+
+    let ind = 0;
+    for (; ind < ticket_types.length; ind++) {
+      if (ticket.type === ticket_types[ind].id) {
+        break;
+      }
+    }
+    const ticket_def = ticket_types[ind];
+
+    // sanity check
+    // if (ticket_def.id !== ticket.type) { }
+
+    const field_name = "tickets." + ind + ".sold." + ticket._id;
+    const update_sold_ticket = {
+      $set: {},
+    };
+    update_sold_ticket.$set[field_name] = ticket;
+    return Events.update({_id: event_id}, update_sold_ticket) === 1;
   }
 });

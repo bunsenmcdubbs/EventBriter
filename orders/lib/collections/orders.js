@@ -111,4 +111,18 @@ Meteor.methods({
 
     return success;
   },
+  updateOrder: function(event_id, order_id, ticket_array) {
+    const order = Orders.findOne({_id: order_id});
+
+    // check that number of tickets still matches order's record
+    if (order.tickets.length !== ticket_array.length) {
+      throw new Meteor.Error("corrupted_data",
+        "number of tickets for this order does not match records");
+    }
+
+    for (let ticket of ticket_array) {
+      // TODO check for success
+      Meteor.call("_updateTicketInfo", event_id, ticket);
+    }
+  },
 });
