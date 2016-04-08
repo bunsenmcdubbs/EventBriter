@@ -26,7 +26,7 @@ Events.schema = new SimpleSchema({
     // }
   },
   created: {type: Date},
-  owner: {type: String, regEx: SimpleSchema.RegEx.Id},
+  owner_id: {type: String, regEx: SimpleSchema.RegEx.Id},
   description: {type: String, optional: true},
   tickets: {type: [TicketDefSchema]},
   orders: {type: [String], regEx: SimpleSchema.RegEx.Id, optional: true},
@@ -50,13 +50,21 @@ Meteor.methods({
     check(this.userId, String); // check that the user is logged in
 
     const new_event = _.extend(event_attributes, {
-      owner: this.userId,
+      owner_id: this.userId,
       created: new Date()
     });
 
     console.log(new_event);
 
     const event_id = Events.insert(new_event);
+    const push_new_event = {
+      $push: {
+        "events": event_id,
+      },
+    };
+    Meteor.users.update({_id: Meteor.userId()}, push_new_event);
+    // TODO check for failure
+
     return event_id;
   },
   updateEvent: function(event_id, event) {

@@ -2,3 +2,7 @@
 // call them with `dateToyyyyMMdd("2015-01-03")` etc.
 dateToyyyyMMdd = date => date.toISOString().split("T")[0];
 yyyyMMddToDate = yyyyMMdd => new Date(yyyyMMdd);
+
+getPublicUserInfo = function(user_id) {
+  return Meteor.users.findOne({_id: user_id}).services.auth0;
+};

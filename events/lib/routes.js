@@ -8,12 +8,14 @@ EventController = RouteController.extend({
     const event = Events.findOne({_id: this.params.event_id});
     if (!event) { console.log("No event found"); }
     event.isOwner = ownsEvent(Meteor.userId(), event);
+    event.owner = getPublicUserInfo(event.owner_id);
+    console.log(event);
 
     // calculate remaining tickets
     if (event.tickets) {
       for (let ticket of event.tickets) {
         ticket.total = ticket.total || 0;
-        const num_sold = Object.keys(ticket.sold).length || 0;
+        const num_sold = Object.keys(ticket.sold || {}).length || 0;
         ticket.remaining = ticket.total - num_sold;
       }
     }
