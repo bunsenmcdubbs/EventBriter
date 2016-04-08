@@ -1,6 +1,6 @@
 <template name="order_edit_single_attendee_info">
   <div class="card card-block" data-ticket-id="{{ticket._id}}">
-    <h2 class="card-title">Ticket #{{ticket._id}} for type {{ticket.type}} Event #{{ticket.event_id}}</h2>
+    <h2 class="card-title">Ticket #{{ticket._id}} for type {{get_ticket_label event ticket.type}} for {{event.name}}</h2>
     <form class="row edit-attendee-info">
       <!-- TODO replace this with reactive/databinding -->
       <input type="hidden" name="_id" value="{{ticket._id}}">
@@ -25,7 +25,7 @@
 
 <template name="order_edit_attendee_info">
   {{#each ticket in tickets}}
-  {{> order_edit_single_attendee_info ticket=ticket}}
+  {{> order_edit_single_attendee_info ticket=ticket event=event}}
   {{/each}}
   <button class="btn btn-primary js-save-attendee-info">Save</button>
 </template>

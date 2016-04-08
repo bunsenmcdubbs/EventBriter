@@ -19,7 +19,7 @@
           {{#each ticket in tickets}}
           <tr>
             <td>{{ticket._id}}</td>
-            <td>{{get_ticket_label ticket.type}}</td>
+            <td>{{get_ticket_label ticket.event ticket.type}}</td>
             <td>{{ticket.attendee_info.name}}</td>
             <td>{{ticket.attendee_info.email}}</td>
             <td>{{ticket.attendee_info.phone}}</td>

@@ -5,14 +5,16 @@ function _getPopulatedOrder(order_id) {
 
   order.event = Events.findOne({_id: order.event_id});
 
-  order.tickets = _(order.tickets)
-  .chain()
-  .pluck("ticket_id")
-  .map(function(ticket_id) {
-    const ticket = _findTicket(order.event._id, ticket_id);
-    return ticket;
-  })
-  .value();
+  if (!order.pending) {
+    order.tickets = _(order.tickets)
+    .chain()
+    .pluck("ticket_id")
+    .map(function(ticket_id) {
+      const ticket = _findTicket(order.event._id, ticket_id);
+      return ticket;
+    })
+    .value();
+  }
 
   return order;
 }
@@ -44,6 +46,8 @@ PendingOrderController = RouteController.extend({
       _id: pending_order_id,
       pending: true,
     });
+
+    pending_order.event = Events.findOne({_id: pending_order.event_id});
 
     _(pending_order.tickets).each(function(ticket) {
       ticket.event_id = pending_order.event_id;
@@ -104,6 +108,7 @@ Router.route("/order/mine", {
   data: function() {
     const order_ids = Meteor.user().orders;
     const orders = _(order_ids).map(_getPopulatedOrder);
+    console.log(orders);
     return {orders: orders};
   },
   template: "order_mine",
