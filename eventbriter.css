@@ -70,6 +70,7 @@ nav .menu a:hover, nav .menu a.active {
 .container {
     width: 100%;
     max-width: 1000px;
+    min-height: 300px;
     margin: 0 auto;
 }
 
@@ -246,4 +247,16 @@ form.create_event input[name="name"] {
     padding: 10px;
     border: 0;
     margin: 5px 0;
+}
+
+footer {
+    text-align: center;
+    margin-top: 25px;
+    opacity: .5;
+}
+
+footer img {
+    height: 30px;
+    display: block;
+    margin: 5px auto;
 }
