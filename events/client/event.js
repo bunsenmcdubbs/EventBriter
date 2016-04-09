@@ -48,6 +48,7 @@ Template.edit_event.events({
     const data = getFormData();
     data.start = yyyyMMddToDate(data.start);
     data.end = yyyyMMddToDate(data.end);
+    data.name = $('#event-title').text();
     console.log(data);
 
     // TODO make this reactive var dream work
