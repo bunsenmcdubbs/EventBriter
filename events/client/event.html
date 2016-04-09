@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-xs-12 col-sm-6 text-sm-right">
         <h1>{{name}}</h1>
-        <div>By {{username}}</div>
+        <div>By {{owner.name}}</div>
       </div>
       <div class="col-xs-12 col-sm-6">
         <div>at {{location}}</div>
@@ -19,13 +19,20 @@
       No description available
     {{/if}}
   </div>
-  <div class="list-group">
-    {{ #each ticket in (ticket_list tickets) }}
-    <div class="list-group-item">
-      {{> view_ticket_choice ticket=ticket }}
+  <form class="js-claim-tickets">
+    <div class="list-group">
+      {{ #each ticket in (get_val tickets) }}
+      <div class="form-group list-group-item">
+        {{> view_ticket_choice ticket=ticket }}
+      </div>
+      {{ /each }}
     </div>
-    {{ /each }}
-  </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary js-claim-tickets-btn">
+        Register
+      </button>
+    </div>
+  </form>
 
   {{#if isOwner}}
   <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>
@@ -64,7 +71,7 @@
       </fieldset>
       <div class="form-group col-xs-12">
         <div class="list-group">
-          {{ #each ticket in (ticket_list tickets) }}
+          {{ #each ticket in (get_val tickets) }}
           <div class="list-group-item">
             {{> edit_ticket_choice ticket=ticket }}
           </div>
@@ -88,6 +95,9 @@
 
 <template name="manage_event">
   <h1>Manage event #{{_id}}</h1>
+  {{ #each ticket_type in (get_val tickets) }}
+    {{> ticket_table tickets=(object_values ticket_type.sold) }}
+  {{/each}}
   <a href="/events/{{_id}}" class="btn btn-secondary">View</a>
   <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>
 </template>

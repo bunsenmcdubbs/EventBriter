@@ -1,2 +1,6 @@
 # ignore environment variables
 .env
+
+# ignore meteor settings file
+settings.json
+

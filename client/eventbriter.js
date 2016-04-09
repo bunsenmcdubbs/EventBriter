@@ -1,5 +1,3 @@
-Meteor.subscribe("userData");
-
 var links = [
   {
     href: "/events/",

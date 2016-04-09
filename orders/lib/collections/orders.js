@@ -18,7 +18,9 @@ Orders.allow({
 
 Meteor.methods({
   // TODO add link to user account
-  createPendingOrder: function(eventId, tickets){
+  // TODO add TTL for pending orders
+  // https://docs.mongodb.org/manual/tutorial/expire-data/
+  createAndInsertPendingOrder: function(eventId, tickets){
     check(this.userId, String); // check the user is signed in
     check(eventId, String); // check eventId is not null
     check(tickets, Object); // check tickets is not null
@@ -31,32 +33,33 @@ Meteor.methods({
       const number_of_tickets = tickets[ticket_type_id];
 
       // find the matching ticket definition
-      let ticket_info = null;
-      for (let ticket of event.tickets) {
-        if (ticket.id === ticket_type_id) {
-          ticket_info = ticket;
-          break;
-        }
-      }
+      let ticket_def = _(event.tickets).find(function(ticket_def) {
+        return ticket_def.id === ticket_type_id;
+      });
 
       // this should never happen
-      if (!ticket_info) {
+      if (!ticket_def) {
         throw new Meteor.Error("invalid_ticket_id",
           "cannot find matching ticket type for this event");
       }
 
       for (let i = 0; i < number_of_tickets; i++) {
+        // assign id's to all tickets
+        const new_ticket_id = Random.id();
         requested_tickets.push({
+          _id: new_ticket_id,
           type: ticket_type_id,
         });
       }
     }
 
+    // new order is a regular order object with an array of
+    // fully defined ticket objects
     const new_order = {
       user_id: this.userId,
       event_id: eventId,
-      pending: true,
-      tickets: requested_tickets, // TODO will this be ok?
+      pending: true, // TODO implement TTL expiry times for pending orders
+      tickets: requested_tickets,
       // `payment` field will be filled by the payments module
     };
 
@@ -68,40 +71,58 @@ Meteor.methods({
     return order_id;
   },
   finalizeOrder: function(event_id, order_id, ticket_array) {
-    // TODO ensure order is still pending
     if (!Orders.findOne({_id: order_id}).pending) {
       throw new Meteor.Error("order_error", "tickets have already been generated");
     }
     // TODO implement rollbacks
-    const ticket_ids = Meteor.call("insertTickets", event_id, ticket_array);
 
-    // insert sold ticket_ids into the event.tickets -> sold array
-    _(ticket_ids).each(function(ticket_id) {
-      const ticket_type = Tickets.findOne({_id: ticket_id}).type;
-      const success = Meteor.call("_addSoldTicket", event_id, ticket_type, ticket_id);
+    // validate tickets and check availablity
+    Meteor.call("validateTickets", event_id, ticket_array);
+
+    // insert sold ticket objects into the event.tickets -> sold tickets
+    _(ticket_array).each(function(ticket) {
+      const success = Meteor.call("_addSoldTicketToEvent", event_id, ticket);
       if (!success) {
         console.log("SUPER FAIL");
       }
     });
 
-    let success = Meteor.call("_addOrder", event_id, order_id);
+    // insert order into event orders array (already in orders collection
+    // and user orders array)
+    let success = Meteor.call("_addOrderToEvent", event_id, order_id);
     if (!success) {
       console.log("SUPER FAIL2");
     }
 
-    const order_tickets = _(ticket_ids).map(function(ticket_id) {
+    // convert order from pending to finalized form
+    // change order's ticket field to array of ticket ids
+    // (ticket objects will be stored in event)
+    const order_tickets = _(ticket_array).map(function(ticket) {
       return {
-        ticket_id: ticket_id,
+        ticket_id: ticket._id,
       };
     });
-
-    Orders.update({_id: order_id}, {
+    success = Orders.update({_id: order_id}, {
       $set: {
         pending: false,
         tickets: order_tickets,
       },
     });
 
-    return ticket_ids;
+    return success;
+  },
+  updateOrder: function(event_id, order_id, ticket_array) {
+    const order = Orders.findOne({_id: order_id});
+
+    // check that number of tickets still matches order's record
+    if (order.tickets.length !== ticket_array.length) {
+      throw new Meteor.Error("corrupted_data",
+        "number of tickets for this order does not match records");
+    }
+
+    for (let ticket of ticket_array) {
+      // TODO check for success
+      Meteor.call("_updateTicketInfo", event_id, ticket);
+    }
   },
 });

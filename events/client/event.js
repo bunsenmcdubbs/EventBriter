@@ -1,5 +1,3 @@
-Meteor.subscribe("Events");
-
 const FORM_ID = "form.edit_event";
 
 // TODO change into reactive variable/dictionary
@@ -42,26 +40,6 @@ function getFormData() {
 
   return form_data;
 }
-
-Template.registerHelper("display_date", function(date) {
-  if (!_.isDate(date)) {
-    return "";
-  }
-  return dateToyyyyMMdd(date);
-});
-
-Template.registerHelper("display_price", function(price){
-  if (!_.isNumber(price)) {
-    return "";
-  }
-  return Number(price).toLocaleString(
-    {},
-    {
-      style: "currency",
-      currency: "USD",
-    }
-  );
-});
 
 Template.edit_event.events({
   "submit form.edit_event": function(event, instance) {
@@ -113,4 +91,6 @@ Template.event_listing.events({
   }
 });
 
-
+Template.manage_event.helpers({
+  get_orders: function() {}
+});
