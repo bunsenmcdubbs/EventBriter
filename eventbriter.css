@@ -234,19 +234,87 @@ ul.event-list li a small {
     opacity: 1;
 }
 
-form.create_event span.form-title {
+#add-event-modal form.edit_event span.form-title {
     font-size: 20px;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-form.create_event input[name="name"] {
+#add-event-modal form.edit_event input[name="name"] {
     display: block;
     font-size: 25px;
     width: 100%;
     padding: 10px;
     border: 0;
-    margin: 5px 0;
+    margin: 15px 0 5px;
+}
+
+.input-box {
+    background: #FFF;
+    height: 45px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.input-box label {
+    background: #888;
+    display: inline-block;
+    padding: 10px;
+    height: 100%;
+    vertical-align: top;
+    width: 35px;
+    margin-right: 15px;
+    float: left;
+    text-transform: uppercase;
+    color: #FFF;
+    text-align: center;
+}
+
+.input-box input {
+    height: 100%;
+    border: 0;
+    margin-left: -50px;
+    padding-left: 50px;
+    width: 100%;
+    background: none;
+    font-size: 15px;
+}
+
+.input-box input[type="date"] {
+    width: 150px;
+    margin-left: 0;
+    padding-left: 0;
+    text-align: center;
+}
+
+.input-box span {
+    line-height: 40px;
+    margin: 0 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.modal button {
+    cursor: pointer;
+    display: block;
+    margin: 15px auto 10px;
+    background: #FFF;
+    opacity: .95;
+    border: 0;
+    padding: 10px 15px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-size: 17px;
+    font-weight: 300;
+    font-family: 'Oswald';
+    transition: all .3s;
+    width: 115px;
+    text-align: center;
+}
+
+.modal button:hover {
+    width: 150px;
+    opacity: 1;
 }
 
 footer {

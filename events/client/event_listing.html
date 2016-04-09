@@ -29,12 +29,13 @@
 
 <template name="add_event_modal">
   <div class="modal" id="add-event-modal">
-    <form class="create_event">
+    <form class="edit_event">
       <span class="form-title">Add an Event</span>
-      <input type="text" name="name" placeholder="Event Name">
-      Location: <input type="text" name="location"><br>
-      Date: <input type="date" name="start" placeholder="Start Date"> to <input type="date" name="end" placeholder="End Date"><br>
-      <textarea name="description" rows="4" class="form-control"></textarea>
+      <input type="text" name="name" placeholder="Event Name" required>
+      <div class="input-box"><label for="add-event-location"><i class="fa fa-map-marker"></i></label><input type="text" name="location" id="add-event-location" placeholder="Location" required></div>
+      <div class="input-box"><label for="add-event-date"><i class="fa fa-calendar"></i></label><input type="date" name="start" placeholder="Start Date" required><span>to</span><input type="date" name="end" placeholder="End Date" required></div>
+      <!-- <textarea name="description" rows="4" class="form-control"></textarea> -->
+      <button type="submit">Create Event</button>
     </form>
   </div>
 </template>

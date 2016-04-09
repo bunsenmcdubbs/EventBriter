@@ -48,6 +48,7 @@ Template.edit_event.events({
     const data = getFormData();
     data.start = yyyyMMddToDate(data.start);
     data.end = yyyyMMddToDate(data.end);
+    console.log(data);
 
     // TODO make this reactive var dream work
     // data.tickets = instance.data.tickets.get();
@@ -88,6 +89,21 @@ Template.event_listing.events({
   },
   "click .modal-back": function(event) {
     $('.modal').removeClass('active');
+  },
+  "submit form.edit_event": function(event, instance) {
+    event.preventDefault();
+    const data = getFormData();
+    data.start = yyyyMMddToDate(data.start);
+    data.end = yyyyMMddToDate(data.end);
+    console.log(data);
+    Meteor.call("insertEvent", data, function(error, result) {
+      if (error) {
+        console.log("error", error);
+      }
+      if (result) {
+        Router.go("/events/"+result+"/edit");
+      }
+    });
   }
 });
 
