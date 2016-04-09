@@ -336,6 +336,7 @@ h2#event-title {
     margin: 20px auto;
     padding: 5px;
     border: 1px solid transparent;
+    outline: none;
 }
 
 h2#event-title:hover {
