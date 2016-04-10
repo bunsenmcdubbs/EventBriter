@@ -117,7 +117,7 @@ Template.manage_event.helpers({
     const ticket_array = _(tickets.get()).chain()
     .pluck("sold")
     .map(function(ticket_type) {
-      return _(ticket_type).values();
+      return _(ticket_type || {}).values();
     })
     .reduce(function(memo, sub_ticket_array) {
       return memo.concat(sub_ticket_array);
