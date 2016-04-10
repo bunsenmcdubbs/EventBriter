@@ -129,7 +129,6 @@ Template.manage_event.helpers({
     //   return ticket_copy;
     // })
     .value();
-    console.log(ticket_array);
     return ticket_array;
   }
 });

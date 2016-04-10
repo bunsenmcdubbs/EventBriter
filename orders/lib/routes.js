@@ -108,7 +108,6 @@ Router.route("/order/mine", {
   data: function() {
     const order_ids = Meteor.user().orders;
     const orders = _(order_ids).map(_getPopulatedOrder);
-    console.log(orders);
     return {orders: orders};
   },
   template: "order_mine",
