@@ -7,7 +7,7 @@ var links = [
   {
     href: "/order/mine",
     title: "My Orders",
-<<<<<<< HEAD
+
     private: true,
   },
   // {
