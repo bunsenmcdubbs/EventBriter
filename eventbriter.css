@@ -1,20 +1,349 @@
-html {
-  height: 100%;
+/* CSS Document */
+
+*, *:before, *:after {
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
+
 body {
-  min-height: 100%;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: #F2F2F2;
 }
 
-.content-wrapper {
-  padding-top: 1em;
-  padding-bottom: 1em;
+header {
+    margin: 30px 0;
 }
 
-.account-button>.greeting {
-  /* Override the irrelevant btn styling*/
-  cursor: auto;
-  -webkit-user-select: auto;
-  -moz-user-select: auto;
-  -ms-user-select: auto;
-  user-select: auto;
+nav .logo, nav .menu {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+nav .menu {
+    list-style: none;
+    float: right;
+    padding: 35px 0;
+}
+
+nav .logo:hover {
+    transform: scale(1.05, 1.05) rotate(-3deg);
+}
+
+nav .logo {
+    transition: all .3s;
+}
+
+nav .logo img {
+    height: 100px;
+}
+
+nav {
+    width: 100%;
+    max-width: 1000px;
+    margin: 10px auto;
+}
+
+nav .menu li {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+nav .menu a {
+    color: #404040;
+    font-size: 18px;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 30px;
+    padding: 5px;
+}
+
+nav .menu a i {
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+nav .menu a:hover, nav .menu a.active {
+    background: #FFF;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    min-height: 300px;
+    margin: 0 auto;
+}
+
+ul.event-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #D9D9D9;
+    border-bottom: none;
+}
+
+ul.event-list li {
+    background: #FFF;
+    border-bottom: 1px solid #D9D9D9;
+    height: 60px;
+    overflow: hidden;
+}
+
+ul.event-list li:hover {
+    background: #FAFAFA;
+}
+
+ul.event-list li a.event-list-bar {
+  display: block;
+  padding: 15px;
+  font-size: 20px;
+  color: #404040;
+  text-decoration: none;
+}
+
+ul.event-list li a small {
+    opacity: .25;
+    margin-left: 5px;
+}
+
+.event-list .options {
+    opacity: 0;
+    margin-top: 20px;
+    transition: all .3s .3s;
+}
+
+.event-list li:hover .options {
+    opacity: 1;
+    margin-top: 0;
+}
+
+.event-list .options i {
+    padding: 15px 0;
+    padding-right: 15px;
+    line-height: 30px;
+    color: #404040;
+}
+
+.event-list .options i:hover {
+    color: #111;
+}
+
+.float-right {
+    float: right;
+}
+
+.button {
+    background: #FA969B;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-size: 17px;
+    font-weight: 300;
+    position: relative;
+    width: 50px;
+    height: 45px;
+    transition: all .3s;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.button a {
+    display: block;
+    text-decoration: none;
+    color: #FFF;
+    height: 100%;
+    width: 100%;
+}
+
+.button:hover {
+    width: 115px;
+}
+
+.button span {
+    display: block;
+    position: absolute;
+    width: 70px;
+    text-align: center;
+    left: 50%;
+    margin-left: -35px;
+    margin-top: 10px;
+    opacity: 0;
+    transition: all .5s;
+}
+
+.button:hover span {
+    opacity: 1;
+    margin-top: 0;
+}
+
+.button:hover i {
+    margin-top: -30px;
+    opacity: 0;
+}
+
+.button i {
+    position: absolute;
+    width: 16px;
+    height: 18px;
+    left: 50%;
+    margin-left: -8px;
+    top: 50%;
+    margin-top: -7px;
+    transition: all .5s;
+}
+
+.modal {
+    color: #FFF;
+    background: #FA969B;
+    position: fixed;
+    width: 500px;
+    height: 300px;
+    overflow: hidden;
+    bottom: 0;
+    transition: all .5s;
+    padding: 20px;
+    left: 50%;
+    margin-left: -250px;
+    margin-bottom: -300px;
+    z-index: 99;
+}
+
+.modal.preview {
+    margin-bottom: -250px;
+}
+
+.modal.active {
+    bottom: 50%;
+    margin-bottom: -150px;
+}
+
+.modal-back {
+    visibility: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, .5);
+    opacity: 0;
+    transition: all .5s;
+}
+
+.modal.active ~ .modal-back {
+    visibility: visible;
+    opacity: 1;
+}
+
+#add-event-modal form.edit_event span.form-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#add-event-modal form.edit_event input[name="name"] {
+    display: block;
+    font-size: 25px;
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    margin: 15px 0 5px;
+}
+
+.input-box {
+    background: #FFF;
+    height: 45px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.input-box label {
+    background: #888;
+    display: inline-block;
+    padding: 10px;
+    height: 100%;
+    vertical-align: top;
+    width: 35px;
+    margin-right: 15px;
+    float: left;
+    text-transform: uppercase;
+    color: #FFF;
+    text-align: center;
+}
+
+.input-box input {
+    height: 100%;
+    border: 0;
+    margin-left: -50px;
+    padding-left: 50px;
+    width: 100%;
+    background: none;
+    font-size: 15px;
+}
+
+.input-box input[type="date"] {
+    width: 150px;
+    margin-left: 0;
+    padding-left: 0;
+    text-align: center;
+}
+
+.input-box span {
+    line-height: 40px;
+    margin: 0 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.modal button {
+    cursor: pointer;
+    display: block;
+    margin: 15px auto 10px;
+    background: #FFF;
+    opacity: .95;
+    border: 0;
+    padding: 10px 15px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-size: 17px;
+    font-weight: 300;
+    font-family: 'Oswald';
+    transition: all .3s;
+    width: 115px;
+    text-align: center;
+}
+
+.modal button:hover {
+    width: 150px;
+    opacity: 1;
+}
+
+footer {
+    text-align: center;
+    margin-top: 25px;
+    opacity: .5;
+}
+
+footer img {
+    height: 30px;
+    display: block;
+    margin: 5px auto;
+}
+
+h2#event-title {
+    text-align: center;
+    font-size: 30px;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 5px;
+    border: 1px solid transparent;
+    outline: none;
+}
+
+h2#event-title:hover {
+    border: 1px solid #DDD;
+}
+
+h2#event-title:focus {
+    background: #FFF;
+    border: 1px solid #DDD;
 }

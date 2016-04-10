@@ -1,15 +1,13 @@
 var links = [
   {
-    href: "/",
-    title: "Home",
-  },
-  {
     href: "/events/",
     title: "Events",
+    icon: "calendar"
   },
   {
     href: "/order/mine",
     title: "My Orders",
+<<<<<<< HEAD
     private: true,
   },
   // {
@@ -20,6 +18,11 @@ var links = [
   {
     href: "/profile/",
     private: true,
+  },
+  
+  {
+    icon: 'ticket',
+    private: true
   }
 ];
 
@@ -34,7 +37,9 @@ Template.navbar.helpers({
   }
 });
 
-Template.navbar.events({
+
+
+Template.home.events({
   "click button.login": function(event) {
     lock.show(function(err, profile, id_token) {
       if (err) {

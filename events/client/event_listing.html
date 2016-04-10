@@ -1,17 +1,41 @@
 <template name="event_listing">
-  <div class="list-group">
-    <h1>Upcoming Events</h1>
-    {{#if currentUser }}
-    <a href="/events/new">
-      <button class="btn btn-primary">Make a new event</button>
-    </a>
-    {{/if}}
+  {{#if currentUser }}<div class="button float-right" id="add-event-btn"><a><i class="fa fa-plus"></i><span>New Event</span></a></div>{{/if}}
+  <h1>Upcoming Events</h1>
+  {{#if event_list.count}}
+  <ul class="event-list">
     {{#each event in event_list}}
-    <a href="/events/{{event._id}}" class="list-group-item">
-      <!-- TODO add block helper in html to convert dates to friendly strings -->
-      <small>{{ display_date event.start }} to {{ display_date event.end }}</small>
-      <strong>{{ event.name }}</strong> at {{ event.location }}
-    </a>
+    <li>
+      <!-- TODO only show options if event belongs to user -->
+      <div class="options float-right">
+        <a href="/events/{{event._id}}" title="View"><i class="fa fa-eye"></i></a>
+        <a href="/events/{{event._id}}/edit" title="Edit"><i class="fa fa-pencil"></i></a>
+        <a href="/events/{{event._id}}/manage" title="Manage"><i class="fa fa-users"></i></a>
+        <a href="#" title="Delete"><i class="fa fa-trash"></i></a>
+      </div>
+      <a href="/events/{{event._id}}" class="event-list-bar">
+        <!-- TODO add block helper in html to convert dates to friendly strings -->
+        <strong>{{ event.name }}</strong> at {{ event.location }}
+        <small>{{ display_date event.start }} to {{ display_date event.end }}</small>
+      </a>
+    </li>
     {{/each}}
+  </ul>
+  {{else}}
+  <span>There are no events to show.</span>
+  {{/if}}
+  {{> add_event_modal}}
+  <div class="modal-back"></div>
+</template>
+
+<template name="add_event_modal">
+  <div class="modal" id="add-event-modal">
+    <form class="edit_event">
+      <span class="form-title">Add an Event</span>
+      <input type="text" name="name" placeholder="Event Name" required>
+      <div class="input-box"><label for="add-event-location"><i class="fa fa-map-marker"></i></label><input type="text" name="location" id="add-event-location" placeholder="Location" required></div>
+      <div class="input-box"><label for="add-event-date"><i class="fa fa-calendar"></i></label><input type="date" name="start" placeholder="Start Date" required><span>to</span><input type="date" name="end" placeholder="End Date" required></div>
+      <!-- <textarea name="description" rows="4" class="form-control"></textarea> -->
+      <button type="submit">Create Event</button>
+    </form>
   </div>
 </template>

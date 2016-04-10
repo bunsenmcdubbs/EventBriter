@@ -48,6 +48,8 @@ Template.edit_event.events({
     const data = getFormData();
     data.start = yyyyMMddToDate(data.start);
     data.end = yyyyMMddToDate(data.end);
+    data.name = $('#event-title').text();
+    console.log(data);
 
     // TODO make this reactive var dream work
     // data.tickets = instance.data.tickets.get();
@@ -73,6 +75,36 @@ Template.edit_event.events({
         }
       });
     }
+  }
+});
+
+Template.event_listing.events({
+  "click #add-event-btn": function(event) {
+    $('#add-event-modal').addClass('active');
+  },
+  "mouseover #add-event-btn": function(event) {
+    $('#add-event-modal').addClass('preview');
+  },
+  "mouseleave #add-event-btn": function(event) {
+    $('#add-event-modal').removeClass('preview');
+  },
+  "click .modal-back": function(event) {
+    $('.modal').removeClass('active');
+  },
+  "submit form.edit_event": function(event, instance) {
+    event.preventDefault();
+    const data = getFormData();
+    data.start = yyyyMMddToDate(data.start);
+    data.end = yyyyMMddToDate(data.end);
+    console.log(data);
+    Meteor.call("insertEvent", data, function(error, result) {
+      if (error) {
+        console.log("error", error);
+      }
+      if (result) {
+        Router.go("/events/"+result+"/edit");
+      }
+    });
   }
 });
 

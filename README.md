@@ -24,8 +24,6 @@ all the packages and dependencies.
 
 *Use and love the [official Meteor documentation](http://docs.meteor.com/#/full/quickstart)*
 
-**NOTE:** We are using [Bootstrap v4-alpha](http://v4-alpha.getbootstrap.com/).
-
 ### Project Structure
 
 As of the current writing (commit after 8717aff25), the project
