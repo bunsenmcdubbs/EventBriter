@@ -17,6 +17,10 @@ var links = [
   //   title: "Make a new event!",
   //   private: true
   // }
+  {
+    href: "/profile/",
+    private: true,
+  }
 ];
 
 // TODO implement active flag
@@ -47,5 +51,8 @@ Template.navbar.events({
         }
         Router.go("/");
      });
+  },
+  "click button.profile": function(event) {
+    Router.go("/profile/");
   }
 });
