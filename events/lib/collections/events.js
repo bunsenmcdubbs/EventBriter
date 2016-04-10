@@ -88,28 +88,62 @@ Meteor.methods({
         "The event ends before it starts");
     }
 
+    // process and compare event information
+    const changes = { $set: {}, $push: {} };
+
+    // compare event infomation fields
     const fields = [
       "name",
       "location",
       "start",
       "end",
       "description",
-      "tickets",
     ];
-
-    // TODO check how this works with a blank description
-    // (automatically inserting $unset)
-    const changes = { $set: {} };
+    // Interesting note: $set with a blank field will automatically $unset
     for (let key of fields) {
       if (!_.isEqual(old_event[key], event[key])) {
         changes.$set[key] = event[key];
       }
     }
 
-    console.log(changes);
+    // compare ticket fields
+    const ticket_fields = [
+      "label",
+      "total",
+      "max_per_person",
+      "price",
+    ];
+    _(event.tickets).each(function(new_ticket) {
+      let old_index = -1;
+      for (let i = 0; i < old_event.tickets.length; i++) {
+        const elem = old_event.tickets[i];
+        if (elem.id === new_ticket.id) {
+          old_index = i;
+          break;
+        }
+      }
+      const old_ticket = old_event.tickets[old_index];
+
+      if (old_ticket === undefined) {
+        changes.$push = {
+          tickets: new_ticket,
+        };
+      } else {
+        for (let key of ticket_fields) {
+          // using loose equality `==` to allow comparison between Number
+          // and string form of number without more code
+          // ex) ("30" == 30) === true
+          if (old_ticket[key] != new_ticket[key]) {
+            changes.$set["tickets." + old_index + "." + key] = new_ticket[key];
+          }
+        }
+      }
+    });
 
     // check if there were any changes
-    if (Object.keys(changes.$set).length === 0) {
+    if (Object.keys(changes.$set).length === 0 &&
+      Object.keys(changes.$push).length === 0) {
+
       throw new Meteor.Error("no_change", "no edits have been made to the event");
     }
 
