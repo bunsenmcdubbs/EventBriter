@@ -132,19 +132,40 @@ ul.event-list li a small {
     float: right;
 }
 
+
+.modal button {
+    display: block;
+    margin: 15px auto 10px;
+    background: #FFF;
+    border: 0;
+    font-family: 'Oswald';
+}
+
+.modal button:hover {
+    opacity: 1;
+}
+
 .button {
+    width: 115px;
     background: #FA969B;
     border-radius: 20px;
     text-transform: uppercase;
     font-size: 17px;
-    font-weight: 300;
-    position: relative;
-    width: 50px;
-    height: 45px;
+    font-weight: 300;    
     transition: all .3s;
     text-align: center;
     cursor: pointer;
     padding: 10px;
+    height: 45px;
+}
+
+.button:hover {
+    width: 150px;
+}
+
+.button-fancy {
+    position: relative;
+    width: 50px;
 }
 
 .button a {
@@ -155,11 +176,11 @@ ul.event-list li a small {
     width: 100%;
 }
 
-.button:hover {
+.button-fancy:hover {
     width: 115px;
 }
 
-.button span {
+.button-fancy span {
     display: block;
     position: absolute;
     width: 70px;
@@ -171,17 +192,17 @@ ul.event-list li a small {
     transition: all .5s;
 }
 
-.button:hover span {
+.button-fancy:hover span {
     opacity: 1;
     margin-top: 0;
 }
 
-.button:hover i {
+.button-fancy:hover i {
     margin-top: -30px;
     opacity: 0;
 }
 
-.button i {
+.button-fancy i {
     position: absolute;
     width: 16px;
     height: 18px;
@@ -294,29 +315,6 @@ ul.event-list li a small {
     text-transform: uppercase;
 }
 
-.modal button {
-    cursor: pointer;
-    display: block;
-    margin: 15px auto 10px;
-    background: #FFF;
-    opacity: .95;
-    border: 0;
-    padding: 10px 15px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    font-size: 17px;
-    font-weight: 300;
-    font-family: 'Oswald';
-    transition: all .3s;
-    width: 115px;
-    text-align: center;
-}
-
-.modal button:hover {
-    width: 150px;
-    opacity: 1;
-}
-
 footer {
     text-align: center;
     margin-top: 25px;
@@ -346,4 +344,78 @@ h2#event-title:hover {
 h2#event-title:focus {
     background: #FFF;
     border: 1px solid #DDD;
+}
+
+.event-info {
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+}
+
+.underline {
+    border-bottom: 2px solid;
+    margin: 5px;
+    padding-bottom: 2px;
+    font-size: 16px;
+}
+
+.underline label {
+    margin-right: 5px;
+}
+
+.underline input {
+    border: 0;
+    vertical-align: bottom;
+    background: none;
+    font-size: 14px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    outline: none;
+}
+
+.ticket-title {
+    display: inline-block;
+    background: url('/img/ticketBackB.png');
+    height: 130px;
+    background-size: contain;
+    min-width: 200px;
+    font-size: 40px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 30px 0;
+    color: #FFF;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    position: relative;
+}
+
+.ticket-title:before {content: '';background: url('/img/ticketBackA.png');width: 20px;height: 100%;position: absolute;top: 0;left: -20px;background-size: cover;}
+
+.ticket-title:after {content: '';background: url('/img/ticketBackA.png');width: 20px;height: 100%;position: absolute;top: 0;right: -20px;background-size: cover;transform: rotateY(180deg);}
+
+.event-details {
+    text-align: center;
+}
+
+.event-desc {
+    max-width: 750px;
+    margin: 0 auto;
+    font-size: 22px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+.event-details span {
+    padding: 5px;
+    margin: 10px 5px;
+    display: inline-block;
+}
+
+.event-details span i {
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.event-desc p {
+    margin: 0;
 }

@@ -7,18 +7,14 @@ var links = [
   {
     href: "/order/mine",
     title: "My Orders",
-
+    icon: 'ticket',
     private: true,
-  },
+  }
   // {
   //   href: "/events/new",
   //   title: "Make a new event!",
   //   private: true
   // }
-  {
-    icon: 'ticket',
-    private: true
-  }
 ];
 
 // TODO implement active flag

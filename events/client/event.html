@@ -1,23 +1,17 @@
 <template name="view_event">
   <small class="text-muted">Event id: {{_id}}</small>
-  <div class="event-details jumbotron">
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 text-sm-right">
-        <h1>{{name}}</h1>
-        <div>By {{owner.name}}</div>
-      </div>
-      <div class="col-xs-12 col-sm-6">
-        <div>at {{location}}</div>
-        <div>from {{ display_date start }} to {{ display_date end }}</div>
-      </div>
+  <div class="event-details">
+    <div class="ticket-title">{{name}}</div><br>
+    <span><i class="fa fa-calendar"></i>{{ display_date start }} to {{ display_date end }}</span>
+    <span><i class="fa fa-map-marker"></i>{{location}}</span>
+    <span><i class="fa fa-user"></i>{{owner.name}}</span>
+    <div class="event-desc">
+      {{#if description}}
+        {{#markdown}}{{description}}{{/markdown}}
+      {{else}}
+        No description available
+      {{/if}}
     </div>
-  </div>
-  <div class="event-description card card-block">
-    {{#if description}}
-      {{#markdown}}{{description}}{{/markdown}}
-    {{else}}
-      No description available
-    {{/if}}
   </div>
   <form class="js-claim-tickets">
     <div class="list-group">
@@ -50,9 +44,10 @@
   </h2> -->
   <h2 id="event-title" contenteditable="true">{{name}}</h2>
   <form class="edit_event">
-    <input type="text" name="location" placeholder="Event Location" value="{{location}}">
-    <input type="date" name="start" placeholder="Start Date" value="{{ display_date start }}">
-    <input type="date" name="end" placeholder="End Date" value="{{ display_date end }}">
+    <div class="event-info">
+      <span class="underline"><label><i class="fa fa-map-marker"></i></label><input type="text" name="location" placeholder="Event Location" value="{{location}}"></span>
+      <span class="underline"><label><i class="fa fa-calendar"></i></label><input type="date" name="start" placeholder="Start Date" value="{{ display_date start }}"> to <input type="date" name="end" placeholder="End Date" value="{{ display_date end }}"></span>
+    </div>
     <textarea name="description">{{description}}</textarea>
     <div class="form-group col-xs-12">
       <div class="list-group">
