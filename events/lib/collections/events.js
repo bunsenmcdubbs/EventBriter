@@ -89,7 +89,7 @@ Meteor.methods({
     }
 
     // process and compare event information
-    const changes = { $set: {}, $push: {} };
+    const changes = { $set: {} };
 
     // compare event infomation fields
     const fields = [
@@ -106,13 +106,14 @@ Meteor.methods({
       }
     }
 
-    // compare ticket fields
+    // compare ticket fields to check for ticket info changes
     const ticket_fields = [
       "label",
       "total",
       "max_per_person",
       "price",
     ];
+    const new_ticket_types = [];
     _(event.tickets).each(function(new_ticket) {
       let old_index = -1;
       for (let i = 0; i < old_event.tickets.length; i++) {
@@ -125,9 +126,7 @@ Meteor.methods({
       const old_ticket = old_event.tickets[old_index];
 
       if (old_ticket === undefined) {
-        changes.$push = {
-          tickets: new_ticket,
-        };
+        new_ticket_types.push(new_ticket);
       } else {
         for (let key of ticket_fields) {
           // using loose equality `==` to allow comparison between Number
@@ -139,15 +138,36 @@ Meteor.methods({
         }
       }
     });
+    const push_new_tickets = { $push: {} };
+    if (new_ticket_types.length !== 0) {
+      push_new_tickets.$push = {
+        tickets: {
+          $each: new_ticket_types
+        }
+      };
+    }
+
+    // check for deleted ticket types
+    // TODO implement in a smart way (preserve/check existing sold tickets etc.)
+
+    console.log(changes);
 
     // check if there were any changes
     if (Object.keys(changes.$set).length === 0 &&
-      Object.keys(changes.$push).length === 0) {
+      Object.keys(push_new_tickets.$push).length === 0) {
 
       throw new Meteor.Error("no_change", "no edits have been made to the event");
     }
 
-    return Events.update({_id: event_id}, changes) == 1; // successfully updated 1 object
+    if (Object.keys(changes.$set).length !== 0) {
+      Events.update({_id: event_id}, changes);
+    }
+    if (Object.keys(push_new_tickets.$push).length !== 0) {
+      Events.update({_id: event_id}, push_new_tickets);
+    }
+
+    return true; // TODO make this return value have meaning
+    // return Events.update({_id: event_id}, changes) == 1; // successfully updated 1 object
   },
   _addOrderToEvent: function(event_id, order_id) {
     // const orders = Events.findOne({_id: event_id}).orders;
