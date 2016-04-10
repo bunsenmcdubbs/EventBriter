@@ -16,11 +16,6 @@ var links = [
   //   private: true
   // }
   {
-    href: "/profile/",
-    private: true,
-  },
-  
-  {
     icon: 'ticket',
     private: true
   }
@@ -56,8 +51,5 @@ Template.home.events({
         }
         Router.go("/");
      });
-  },
-  "click button.profile": function(event) {
-    Router.go("/profile/");
   }
 });
