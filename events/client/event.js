@@ -109,5 +109,27 @@ Template.event_listing.events({
 });
 
 Template.manage_event.helpers({
-  get_orders: function() {}
+  get_orders: function() {
+    // TODO implement
+  },
+  all_tickets: function(tickets) {
+    const event = this;
+    const ticket_array = _(tickets.get()).chain()
+    .pluck("sold")
+    .map(function(ticket_type) {
+      return _(ticket_type).values();
+    })
+    .reduce(function(memo, sub_ticket_array) {
+      return memo.concat(sub_ticket_array);
+    }, [])
+    // TODO reimplement this to reduce repeated lookups later
+    // .map(function(ticket) {
+    //   const ticket_copy = _(ticket).clone();
+    //   // ticket_copy.event = event;
+    //   return ticket_copy;
+    // })
+    .value();
+    console.log(ticket_array);
+    return ticket_array;
+  }
 });
