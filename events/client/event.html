@@ -72,9 +72,7 @@
 
 <template name="manage_event">
   <h1>Manage event #{{_id}}</h1>
-  {{ #each ticket_type in (get_val tickets) }}
-    {{> ticket_table tickets=(object_values ticket_type.sold) }}
-  {{/each}}
+  {{> ticket_table tickets=(all_tickets tickets) }}
   <a href="/events/{{_id}}" class="btn btn-secondary">View</a>
   <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>
 </template>
