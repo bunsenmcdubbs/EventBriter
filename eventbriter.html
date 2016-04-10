@@ -24,7 +24,7 @@
       {{#each links}}{{#unless hide}}
       <li class="{{#if active}}active{{/if}}"><a href="{{href}}"><i class="fa fa-{{icon}}"></i>{{title}}</a></li>
       {{/unless}}{{/each}}
-      <li><a href="#"><i class="fa fa-user"></i>{{currentUser.services.auth0.nickname}}</a></li>
+      <li><a href="/profile/"><i class="fa fa-user"></i>{{currentUser.services.auth0.nickname}}</a></li>
     </ul>
     <!-- {{> account_button}} -->
   </nav>
