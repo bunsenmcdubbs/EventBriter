@@ -1,0 +1,22 @@
+{
+  "name": "eventbriter",
+  "version": "0.0.0",
+  "description": "events, brighter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HackGT/EventBriter.git"
+  },
+  "author": "HackGT EventBriter Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HackGT/EventBriter/issues"
+  },
+  "homepage": "https://github.com/HackGT/EventBriter",
+  "dependencies": {
+    "braintree-web": "^2.22.2"
+  }
+}

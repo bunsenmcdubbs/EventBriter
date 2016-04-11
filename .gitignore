@@ -1,6 +1,8 @@
-# ignore environment variables
+# ignore environment variables (outdated)
 .env
 
 # ignore meteor settings file
 settings.json
 
+# npm modules
+node_modules/
