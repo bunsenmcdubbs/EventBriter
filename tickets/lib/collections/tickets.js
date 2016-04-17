@@ -38,7 +38,50 @@ Meteor.methods({
 
     return ticket_array;
   },
-  updateTickets: function(ticket_array) {
-    // TODO process tickets individually
-  }
+  // update ticket info (sold tickets)
+  _updateTicketInfo: function(event_id, ticket) {
+    // TODO validation
+
+    const ticket_types = Events.findOne({_id: event_id}).tickets;
+    let ind = 0;
+    for (; ind < ticket_types.length; ind++) {
+      if (ticket.type === ticket_types[ind].id) {
+        break;
+      }
+    }
+    const ticket_def = ticket_types[ind];
+
+    // sanity check
+    // if (ticket_def.id !== ticket.type) { }
+
+    const field_name = "tickets." + ind + ".sold." + ticket._id + ".attendee_info";
+    const update_sold_ticket = {
+      $set: {},
+    };
+    update_sold_ticket.$set[field_name] = ticket.attendee_info;
+    return Events.update({_id: event_id}, update_sold_ticket) === 1;
+  },
+  // update ticket info (pending orders)
+  _updatePendingTicketInfo: function(pending_order_id, ticket) {
+    const tickets = Orders.findOne(
+      {
+        _id: pending_order_id,
+        pending: true,
+      }
+    ).tickets;
+
+    let ind = 0;
+    for (; ind < tickets.length; ind++) {
+      if (tickets[ind].id === ticket.id) {
+        break;
+      }
+    }
+
+    const field_name = "tickets." + ind + ".attendee_info";
+    const update_pending_ticket = {
+      $set: {},
+    };
+    update_pending_ticket.$set[field_name] = ticket.attendee_info;
+    return Orders.update({_id: pending_order_id}, update_pending_ticket) === 1;
+  },
 });
