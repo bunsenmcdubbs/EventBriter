@@ -35,29 +35,18 @@ Template.order_edit_attendee_info.events({
     });
     console.log(attendees_info);
 
-    if (instance.data.pending) {
-      // TODO validate things
-      Meteor.call("finalizeOrder", event_id, order_id, attendees_info,
-        function(error, ticket_ids) {
-          if (error) {
-            console.log("Failure creating new order", error);
-          } else {
-            console.log(ticket_ids);
+    Meteor.call("updateOrder", event_id, order_id, attendees_info,
+      function(error, success) {
+        if (error) {
+          console.error("Failure while updating ticket info", error);
+        } else {
+          console.log("successfully updated ticket info");
+          // TODO give user feedback
+          if (instance.data.pending) {
             Router.go("order.create.payment_info", {order_id: order_id});
           }
         }
-      );
-    } else {
-      Meteor.call("updateOrder", event_id, order_id, attendees_info,
-        function(error, success) {
-          if (error) {
-            console.error("Failure while updating ticket info", error);
-          } else {
-            console.log("successfully updated ticket info");
-            // TODO give user feedback
-          }
-        }
-      );
-    }
+      }
+    );
   }
 });

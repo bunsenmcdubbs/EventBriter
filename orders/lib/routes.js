@@ -19,6 +19,13 @@ function _getPopulatedOrder(order_id) {
   return order;
 }
 
+function _findTicketType (event_id, ticket_id) {
+  const ticket_types = Events.findOne({_id: event_id}).tickets;
+  return _(ticket_types).find(function(ticket_type) {
+    return ticket_type.id === ticket_id;
+  });
+}
+
 function _findTicket (event_id, ticket_id) {
   const ticket_types = Events.findOne({_id: event_id}).tickets;
   for (let ticket_type of ticket_types) {
@@ -47,12 +54,18 @@ PendingOrderController = RouteController.extend({
       pending: true,
     });
 
+    console.log("pending order:", pending_order);
+
     pending_order.event = Events.findOne({_id: pending_order.event_id});
 
+    let total_price = 0;
     _(pending_order.tickets).each(function(ticket) {
       ticket.event_id = pending_order.event_id;
       ticket.order_id = pending_order._id;
+      total_price += _findTicketType(pending_order.event_id, ticket.type).price;
     });
+    pending_order.total_price = total_price;
+
     return pending_order;
   },
 });
@@ -73,21 +86,8 @@ Router.route("/order/pending/:order_id/attendee_info", {
 });
 
 Router.route("/order/pending/:order_id/payment", {
-  data: function() {
-    const order_id = this.params.order_id;
-    const order = Orders.findOne({
-      _id: order_id,
-    });
-
-    return order;
-  },
-  action: function() {
-    const order_id = this.params.order_id;
-    this.redirect("order.receipt", {order_id: order_id});
-  },
-  // TODO actually implement payments
-  // TODO implement template
-  // template: "order_payment_info",
+  controller: PendingOrderController,
+  template: "order_payment_info",
   name: "order.create.payment_info",
 });
 

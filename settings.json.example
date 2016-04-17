@@ -1,6 +1,11 @@
 {
   "private": {
     "AUTH0_CLIENT_ID": "YOUR_CLIENT_ID",
-    "AUTH0_DOMAIN": "YOUR_AUTH0_DOMAIN"
+    "AUTH0_DOMAIN": "YOUR_AUTH0_DOMAIN",
+    "braintree": {
+      "merchantId": "MERCHANT_ID",
+      "publicKey": "PUBLIC_KEY",
+      "privateKey": "PRIVATE_KEY",
+    },
   }
 }

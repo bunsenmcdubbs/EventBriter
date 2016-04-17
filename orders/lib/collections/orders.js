@@ -6,6 +6,7 @@ Orders.schema = new SimpleSchema({
   tickets: {type: [Object], blackbox: true}, // TODO make this more strict
   pending: {type: Boolean, optional: true},
   payments: {type: Object, optional: true},
+  receipt: {type: Object, optional: true, blackbox: true}
 });
 
 Orders.attachSchema(Orders.schema);
@@ -70,17 +71,21 @@ Meteor.methods({
 
     return order_id;
   },
-  finalizeOrder: function(event_id, order_id, ticket_array) {
-    if (!Orders.findOne({_id: order_id}).pending) {
+  finalizeOrder: function(event_id, order_id) {
+    const pending_order = Orders.findOne({_id: order_id});
+    if (!pending_order.pending) {
       throw new Meteor.Error("order_error", "tickets have already been generated");
     }
     // TODO implement rollbacks
+    const ticket_array = pending_order.tickets;
 
     // validate tickets and check availablity
     Meteor.call("validateTickets", event_id, ticket_array);
 
     // insert sold ticket objects into the event.tickets -> sold tickets
     _(ticket_array).each(function(ticket) {
+      ticket.event = event_id;
+      ticket.order = order_id;
       const success = Meteor.call("_addSoldTicketToEvent", event_id, ticket);
       if (!success) {
         console.log("SUPER FAIL");
@@ -120,9 +125,15 @@ Meteor.methods({
         "number of tickets for this order does not match records");
     }
 
-    for (let ticket of ticket_array) {
-      // TODO check for success
-      Meteor.call("_updateTicketInfo", event_id, ticket);
+    if (order.pending) {
+      for (let ticket of ticket_array) {
+        // TODO check for success
+        Meteor.call("_updatePendingTicketInfo", order_id, ticket);
+      }
+    } else {
+      for (let ticket of ticket_array) {
+        Meteor.call("_updateTicketInfo", event_id, ticket);
+      }
     }
   },
 });

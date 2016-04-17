@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/HackGT/EventBriter",
   "dependencies": {
-    "braintree-web": "^2.22.2"
+    "braintree": "^1.37.1",
+    "braintree-web": "^2.22.2",
+    "meteor-node-stubs": "^0.2.3"
   }
 }
