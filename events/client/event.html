@@ -13,6 +13,13 @@
       {{/if}}
     </div>
   </div>
+  <div class="bottom-bar">
+    <div class="button" style="display: inline-block; color: #FFF;">Reserve a Ticket</div>
+    {{#if isOwner}}
+    <div class="button" style="display: inline-block; color: #FFF;"><a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit Event</a></div>
+    <div class="button" style="display: inline-block; color: #FFF;"><a href="/events/{{_id}}/manage" class="btn btn-secondary">Manage Event</a></div>
+    {{/if}}
+  </div>
   <form class="js-claim-tickets">
     <div class="list-group">
       {{ #each ticket in (get_val tickets) }}
@@ -27,11 +34,6 @@
       </button>
     </div>
   </form>
-
-  {{#if isOwner}}
-  <a href="/events/{{_id}}/edit" class="btn btn-secondary">Edit</a>
-  <a href="/events/{{_id}}/manage" class="btn btn-secondary">Manage</a>
-  {{/if}}
 </template>
 
 <template name="edit_event">
@@ -43,31 +45,36 @@
   {{/if}}
   </h2> -->
   <h2 id="event-title" contenteditable="true">{{name}}</h2>
-  <form class="edit_event">
+  <form class="edit_event" style="text-align: center;">
     <div class="event-info">
       <span class="underline"><label><i class="fa fa-map-marker"></i></label><input type="text" name="location" placeholder="Event Location" value="{{location}}"></span>
       <span class="underline"><label><i class="fa fa-calendar"></i></label><input type="date" name="start" placeholder="Start Date" value="{{ display_date start }}"> to <input type="date" name="end" placeholder="End Date" value="{{ display_date end }}"></span>
     </div>
-    <textarea name="description">{{description}}</textarea>
-    <div class="form-group col-xs-12">
-      <div class="list-group">
-        {{ #each ticket in (get_val tickets) }}
-        <div class="list-group-item">
-          {{> edit_ticket_choice ticket=ticket }}
-        </div>
-        {{ /each }}
-        <div class="list-group-item list-group-item-danger new-ticket">
-          {{> edit_ticket_choice ""}}
-        </div>
-      </div>
-      <button class="btn btn-primary add-new-ticket">+</button>
+    <textarea name="description" placeholder="Insert a blurb here about the event, who should register, and any other important event details">{{description}}</textarea>
+    <div class="ticket-editor">
+      {{ #each ticket in (get_val tickets) }}
+        {{> edit_ticket_choice ticket=ticket }}
+      {{else}}
+      <span>This event has no tickets created! <strong id="open-add-ticket">Add a ticket</strong></span>
+      {{ /each }}
+      {{> edit_ticket_choice ""}}
+      <button class="add-new-ticket">+</button>
+      {{> add_ticket_modal}}
+      <div class="modal-back"></div>
     </div>
-    <button type="submit" class="btn btn-success-outline">Save</button>
+    <button type="submit" class="button">Save</button>
   </form>
   {{#unless new_event}}
-  <a href="/events/{{_id}}" class="btn btn-secondary">View</a>
-  <a href="/events/{{_id}}/manage" class="btn btn-secondary">Manage</a>
+  <a href="/events/{{_id}}">View</a>
+  <a href="/events/{{_id}}/manage">Manage</a>
   {{/unless}}
+</template>
+
+<template name="add_ticket_modal">
+  <div class="modal" id="add-ticket-modal">
+    <!-- {{> edit_ticket_choice ""}} -->
+    <button class="add-new-ticket">+</button>
+  </div>
 </template>
 
 <template name="manage_event">

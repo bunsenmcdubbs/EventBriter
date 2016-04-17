@@ -146,7 +146,6 @@ ul.event-list li a small {
 }
 
 .button {
-    width: 115px;
     background: #FA969B;
     border-radius: 20px;
     text-transform: uppercase;
@@ -155,12 +154,12 @@ ul.event-list li a small {
     transition: all .3s;
     text-align: center;
     cursor: pointer;
-    padding: 10px;
+    padding: 10px 25px;
     height: 45px;
 }
 
 .button:hover {
-    width: 150px;
+    padding: 10px 45px;
 }
 
 .button-fancy {
@@ -329,7 +328,7 @@ footer img {
 
 h2#event-title {
     text-align: center;
-    font-size: 30px;
+    font-size: 40px;
     max-width: 500px;
     margin: 20px auto;
     padding: 5px;
@@ -353,14 +352,18 @@ h2#event-title:focus {
 }
 
 .underline {
-    border-bottom: 2px solid;
+    padding: 5px;
     margin: 5px;
-    padding-bottom: 2px;
     font-size: 16px;
+    background: #FFF;
 }
 
 .underline label {
     margin-right: 5px;
+    margin-left: -5px;
+    background: #888;
+    padding: 5px 10px;
+    color: #FFF;
 }
 
 .underline input {
@@ -370,6 +373,26 @@ h2#event-title:focus {
     font-size: 14px;
     font-family: 'Oswald', sans-serif;
     font-weight: 300;
+    outline: none;
+}
+
+.edit_event textarea {
+    margin: 10px auto;
+    display: block;
+    width: 500px;
+    min-height: 200px;
+    border: 0;
+    outline: none;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+}
+
+.edit_event button {
+    border: 0;
+    color: #FFF;
+    margin: 10px;
+    font-family: 'Oswald', sans-serif;
     outline: none;
 }
 
@@ -418,4 +441,15 @@ h2#event-title:focus {
 
 .event-desc p {
     margin: 0;
+}
+
+.bottom-bar {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    background: #FFF;
+    padding: 15px;
+    z-index: 99;
 }

@@ -42,6 +42,12 @@ function getFormData() {
 }
 
 Template.edit_event.events({
+  "click #open-add-ticket": function(event) {
+    $('#add-ticket-modal').addClass('active');
+  },
+  "click .modal-back": function(event) {
+    $('.modal').removeClass('active');
+  },
   "submit form.edit_event": function(event, instance) {
     event.preventDefault();
 
