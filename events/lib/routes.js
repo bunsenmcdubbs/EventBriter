@@ -58,9 +58,10 @@ CheckInController = RouteController.extend({
     const tickets = event.tickets;
     const checkin = event.checkins[checkin_id];
     checkin.id = checkin_id;
-    
+
     return {
       event_id: event_id,
+      event: event,
       checkin_id: checkin_id,
       checkin: checkin,
       tickets: tickets,
