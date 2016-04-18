@@ -84,4 +84,33 @@ Meteor.methods({
     update_pending_ticket.$set[field_name] = ticket.attendee_info;
     return Orders.update({_id: pending_order_id}, update_pending_ticket) === 1;
   },
+  // set checkin status for a ticket either in or out
+  // event_id
+  // checkin_id
+  // ticket_id
+  // is_checkin (Boolean) true - check in, false - check out
+  // return true if a change was made, else false
+  checkInTicket: function(event_id, checkin_id, ticket_id, is_checkin) {
+    // TODO validations and existance checking
+    const checkins = Events.findOne({_id: event_id}).checkins[checkin_id];
+    // TODO check that the ticket id is valid
+
+    // find if the ticket is already checked in
+    const was_checkedin = _(checkins.tickets).some(function(t_ticket_id) {
+      return t_ticket_id === ticket_id;
+    });
+
+    if (was_checkedin === is_checkin) {
+      return false;
+    }
+
+    const update_checkins = {};
+    const field_name = "checkins." + checkin_id + ".tickets";
+    const operator = (is_checkin === true) ? "$push" : "$pull";
+
+    update_checkins[operator] = {};
+    update_checkins[operator][field_name] = ticket_id;
+
+    return Events.update({_id: event_id}, update_checkins);
+  },
 });

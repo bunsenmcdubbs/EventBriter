@@ -136,5 +136,27 @@ Template.manage_event.helpers({
     // })
     .value();
     return ticket_array;
+  },
+  get_checkins: function(checkins) {
+    const checkin_arr = _(checkins).map(function(checkin, id) {
+      return _(checkin).extend({id: id});
+    });
+    console.log(checkins, checkin_arr);
+    return checkin_arr;
   }
+});
+
+Template.manage_event.events({
+  "submit .js-new-checkin": function(event, instance) {
+    event.preventDefault();
+    const name = instance.$(".js-new-checkin > input")[0].value;
+    const event_id = instance.data._id;
+    Meteor.call("addNewCheckIn", event_id, name, function(err, checkin_id) {
+      if (err) {
+        console.log(err);
+      } else {
+        Router.go("event.checkin", {event_id: event_id, checkin_id: checkin_id});
+      }
+    });
+  },
 });

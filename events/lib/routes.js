@@ -36,6 +36,38 @@ ModifyEventController = EventController.extend({
   }
 });
 
+// TODO make this more OOP/better design
+CheckInController = RouteController.extend({
+  onBeforeAction: function() {
+    // Check for ownership permissions
+    // NOTE: this will also reject unauthenticated users (yay)
+    const event_id = this.params.event_id;
+    const event = Events.findOne({_id: event_id});
+
+    if (!ownsEvent(Meteor.userId(), event)) {
+      this.render("insufficient_permissions");
+      throw new Meteor.Error("insufficient_permissions", "user not authorized to edit this event");
+    }
+    this.next();
+  },
+  data: function() {
+    const event_id = this.params.event_id;
+    const checkin_id = this.params.checkin_id;
+    const event = Events.findOne({_id: event_id});
+
+    const tickets = event.tickets;
+    const checkin = event.checkins[checkin_id];
+    checkin.id = checkin_id;
+    
+    return {
+      event_id: event_id,
+      checkin_id: checkin_id,
+      checkin: checkin,
+      tickets: tickets,
+    };
+  },
+});
+
 EventListController = RouteController.extend({
   // NOTE: this is currently not in use (and can't be reached - array at root)
   // check event_listing.js for Template helper
@@ -87,4 +119,11 @@ Router.route("/events/:event_id/manage", {
   controller: ModifyEventController,
   template: "manage_event",
   name: "event.manage",
+});
+
+// TODO
+Router.route("/events/:event_id/manage/checkin/:checkin_id", {
+  controller: CheckInController,
+  template: "checkin_event",
+  name: "event.checkin",
 });

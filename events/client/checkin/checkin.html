@@ -1,0 +1,33 @@
+<!-- TODO un-copy from ticket_table  -->
+<template name="checkin_event">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Checked In</th>
+        <th>Ticket #</th>
+        <th>Ticket Type</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each ticket in (all_tickets tickets)}}
+      <tr class="ticket-checkin">
+        <td>
+          <input
+            type="checkbox"
+            class="js-checkin"
+            data-ticket-id="{{ticket._id}}"
+            checked="{{is_checked_in ticket._id}}" />
+        </td>
+        <td>{{ticket._id}}</td>
+        <td>{{get_ticket_label ticket}}</td>
+        <td>{{ticket.attendee_info.name}}</td>
+        <td>{{ticket.attendee_info.email}}</td>
+        <td>{{ticket.attendee_info.phone}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>

@@ -30,6 +30,7 @@ Events.schema = new SimpleSchema({
   description: {type: String, optional: true},
   tickets: {type: [TicketDefSchema]},
   orders: {type: [String], regEx: SimpleSchema.RegEx.Id, optional: true},
+  checkins: {type: Object, blackbox: true, optional: true}, // TODO un-blackbox this
 });
 
 // Schema validation
@@ -168,6 +169,27 @@ Meteor.methods({
 
     return true; // TODO make this return value have meaning
     // return Events.update({_id: event_id}, changes) == 1; // successfully updated 1 object
+  },
+  addNewCheckIn: function(event_id, name) {
+    // TODO check ownership
+    check(name, String);
+    // TODO check that this is a new, unique name
+    const new_checkin_id = new Mongo.ObjectID().toHexString();
+    const field_name = "checkins." + new_checkin_id;
+    const add_new_checkin = {
+      $set: {}
+    };
+    add_new_checkin.$set[field_name] = {
+      name: name,
+      tickets: [],
+    };
+
+    console.log(add_new_checkin);
+
+    // TODO check success
+    Events.update({_id: event_id}, add_new_checkin);
+
+    return new_checkin_id;
   },
   _addOrderToEvent: function(event_id, order_id) {
     // const orders = Events.findOne({_id: event_id}).orders;

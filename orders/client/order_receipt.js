@@ -1,8 +1,4 @@
 Template.registerHelper("get_ticket_label", function(event, ticket_type_id) {
-  // TODO HACK this is a TEMPORARY crappy fallback
-  // if (event === undefined) {
-  //   event = this.event;
-  // }
 
   if (typeof event === "string") {
     event = Events.findOne({_id: event});
