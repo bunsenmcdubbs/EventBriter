@@ -13,28 +13,11 @@ function getFormData() {
   const NEW_TICKET_FORM_ID = ".edit_ticket";
   form_data.tickets = _($(".edit_ticket")).chain()
   .reject(function(elem) {
-    return $(elem).parent().hasClass("new-ticket");
+    return $(elem).hasClass("new_ticket");
   })
   .map(
-    function(form) {
-      const form_data = $(form).serializeArray();
-      form_data.push({
-        name: "id",
-        value: $(form).data().ticketId,
-      });
-      return form_data;
-    }
-  ).map(
-    function(arr) {
-      return _(arr).map(
-        function(pair) {
-          return [pair.name, pair.value];
-        }
-      );
-    }
-  ).map(
-    function(e) {
-      return _.object(e);
+    function(elem) {
+      return getTicketData(elem);
     }
   ).value();
 

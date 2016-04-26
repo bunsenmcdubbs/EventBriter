@@ -48,17 +48,25 @@ Template.view_event.events({
   },
 });
 
-const NEW_TICKET_FORM_ID = ".new-ticket .edit_ticket";
+const NEW_TICKET_FORM_ID = ".new_ticket.edit_ticket";
 
-function getNewTicketData () {
-  const new_ticket_data = _.object(
-    _.map($(NEW_TICKET_FORM_ID).serializeArray(),
-      function(e) { return [e.name, e.value]; }
-    )
-  );
-
-  return new_ticket_data;
-}
+getTicketData = function(elem) {
+  elem = $(elem);
+  const pairs = elem.serializeArray();
+  if (elem.data().ticketId) {
+    pairs.push({
+      name: "id",
+      value: elem.data().ticketId,
+    });
+  }
+  const ticket_data = _(pairs).chain()
+  .map(function(pair) {
+    return [pair.name, pair.value];
+  })
+  .object()
+  .value();
+  return ticket_data;
+};
 
 // export this function for use in event.js
 clearNewTicketData = function() {
@@ -74,8 +82,7 @@ Template.edit_event.events({
     const ticket_list = instance.data.tickets.get();
 
     // grab the ticket info and create a new ticket type
-    const new_ticket = getNewTicketData(); // TODO use scoped instance.$
-
+    const new_ticket = getTicketData(instance.$(NEW_TICKET_FORM_ID));
     // validate ticket type
 
     // TODO should we really enforce unique ticket labels?

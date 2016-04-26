@@ -25,7 +25,7 @@
 
 <!-- Individual ticket choice edit -->
 <template name="edit_ticket_choice">
-  <form data-ticket-id="{{ticket.id}}" class="row edit_ticket">
+  <form data-ticket-id="{{ticket.id}}" class="row edit_ticket {{#unless ticket.id}}new_ticket{{/unless}}">
 
     <div class="col-xs-12 col-lg-7">
       <input type="text" name="label" class="form-control"
