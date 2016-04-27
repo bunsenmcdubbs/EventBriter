@@ -136,4 +136,18 @@ Meteor.methods({
       }
     }
   },
+  deletePendingOrder: function(order_id) {
+    // const order = Orders.findOne({
+    //   _id: order_id,
+    //   pending: true,
+    // });
+    //
+    // if (!order) {
+    //   throw new Meteor.Error("no_such_pending_order",
+    //     "There is no pending order with matching id");
+    // }
+
+    const success = Orders.remove({_id: order_id});
+    return success;
+  },
 });
