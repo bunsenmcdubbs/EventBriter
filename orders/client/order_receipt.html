@@ -3,6 +3,9 @@
     <div class="card-header">
       <h3>Order #{{_id}} for {{event.name}}</h3>
       <a class="js-edit-order btn btn-primary-outline">Edit</a>
+      <!-- TODO change wording for non-pending orders to be sensitive about free tickets -->
+      <a class="js-delete-order btn btn-primary-outline">
+        {{#if pending}}Delete{{else}}Request Refund{{/if}}</a>
     </div>
     <div class="card-block">
       {{> ticket_table tickets=tickets}}

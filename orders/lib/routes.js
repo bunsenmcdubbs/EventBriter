@@ -54,7 +54,7 @@ PendingOrderController = RouteController.extend({
       pending: true,
     });
 
-    console.log("pending order:", pending_order);
+    // console.log("pending order:", pending_order);
 
     pending_order.event = Events.findOne({_id: pending_order.event_id});
 

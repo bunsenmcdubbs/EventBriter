@@ -147,7 +147,17 @@ Meteor.methods({
     //     "There is no pending order with matching id");
     // }
 
-    const success = Orders.remove({_id: order_id});
-    return success;
+    const user_id = Orders.findOne({_id: order_id}).user_id;
+    const order_remove_success = Orders.remove({_id: order_id});
+
+    const remove_order_from_user = {
+      $pull: {
+        orders: order_id,
+      },
+    };
+    const user_order_remove_success = Meteor.users.update({_id: user_id}, remove_order_from_user);
+
+    // TODO check success codes
+    return order_remove_success;
   },
 });

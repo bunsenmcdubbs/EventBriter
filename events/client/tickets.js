@@ -40,7 +40,7 @@ Template.view_event.events({
         if (error) {
           console.log("error", error);
         } else {
-          console.log(order_id);
+          console.log("pending order id", order_id);
           Router.go("order.create.attendee_info", {order_id: order_id});
         }
       }
