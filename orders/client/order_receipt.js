@@ -37,6 +37,22 @@ Template.order_receipt.events({
       });
     } else {
       console.log("trying to delete an order");
+      Meteor.call("requestRefund", order._id, function(error, success) {
+        if (error) {
+          console.log(error);
+        } else {
+          const new_order = Orders.findOne({_id: order._id});
+          if (new_order.receipt.refunded) {
+            Meteor.call("deleteOrder", order._id, function(error, success) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log("successfully deleted order");
+              }
+            });
+          }
+        }
+      });
     }
   },
 });

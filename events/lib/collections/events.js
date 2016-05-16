@@ -197,12 +197,22 @@ Meteor.methods({
 
     const push_new_order = {
       $push: {
-        "orders": order_id
-      }
+        "orders": order_id,
+      },
     };
 
     console.log(event_id, order_id, push_new_order);
     return Events.update({_id: event_id}, push_new_order);
+  },
+  _removeOrderFromEvent: function(event_id, order_id) {
+    const remove_order = {
+      $pull: {
+        "orders": order_id,
+      },
+    };
+
+    console.log(event_id, order_id, remove_order);
+    return Events.update({_id: event_id}, remove_order);
   },
   _addSoldTicketToEvent: function(event_id, ticket) {
     // TODO validation
@@ -230,5 +240,22 @@ Meteor.methods({
     };
     add_sold_ticket.$set[field] = ticket;
     return Events.update({_id: event_id}, add_sold_ticket) === 1;
+  },
+  _removeSoldTicketFromEvent: function(event_id, ticket_id) {
+    // TODO refactor
+    const event = Events.findOne({_id: event_id});
+    let ind = 0;
+    for (; ind < event.tickets.length; ind++) {
+      if (event.tickets[ind].sold[ticket_id]) {
+        break;
+      }
+    }
+
+    const field = "tickets." + ind + ".sold." + ticket_id;
+    const remove_ticket = {
+      $unset: {},
+    };
+    remove_ticket.$unset[field] = "";
+    return Events.update({_id: event_id}, remove_ticket) === 1;
   },
 });

@@ -5,7 +5,7 @@ Orders.schema = new SimpleSchema({
   event_id: {type: String, regEx: SimpleSchema.RegEx.Id},
   tickets: {type: [Object], blackbox: true}, // TODO make this more strict
   pending: {type: Boolean, optional: true},
-  payments: {type: Object, optional: true},
+  // payments: {type: Object, optional: true}, // TODO needed later?
   receipt: {type: Object, optional: true, blackbox: true}
 });
 
@@ -61,7 +61,6 @@ Meteor.methods({
       event_id: eventId,
       pending: true, // TODO implement TTL expiry times for pending orders
       tickets: requested_tickets,
-      // `payment` field will be filled by the payments module
     };
 
     const order_id = Orders.insert(new_order);
@@ -135,6 +134,21 @@ Meteor.methods({
         Meteor.call("_updateTicketInfo", event_id, ticket);
       }
     }
+  },
+  deleteOrder: function(order_id) {
+    const order = Orders.findOne({_id: order_id});
+    const event_id = order.event_id;
+    console.log(order);
+    _(order.tickets).each(function(ticket) {
+      Meteor.call("_removeSoldTicketFromEvent", event_id, ticket.ticket_id);
+    });
+    Meteor.call("_removeOrderFromEvent", event_id, order._id);
+
+    Meteor.call("_removeOrderFromUser", order_id, order.user_id);
+
+    return Orders.remove({
+      _id: order_id
+    });
   },
   deletePendingOrder: function(order_id) {
     // const order = Orders.findOne({
