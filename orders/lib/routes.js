@@ -5,7 +5,9 @@ function _getPopulatedOrder(order_id) {
 
   order.event = Events.findOne({_id: order.event_id});
 
-  if (!order.pending) {
+  // skip this if order is pending or refunded
+  if (!order.pending && !(order.receipt && order.receipt.refunded)) {
+
     order.tickets = _(order.tickets)
     .chain()
     .pluck("ticket_id")

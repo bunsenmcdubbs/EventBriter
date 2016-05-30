@@ -25,6 +25,27 @@ Template.order_receipt.events({
       Router.go('order.edit.attendee_info', {order_id: order._id});
     }
   },
+  "click .js-refund-order": function(event, instance) {
+    const order = instance.data;
+    if (!order.pending) {
+      // TODO throw error
+      // cannot refund pending order
+      console.err("cannot refund pending order or already refunded order");
+      return;
+    }
+    if (order.receipt && order.receipt.refunded) {
+      console.err("cannot refund already refunded order");
+      return;
+    }
+
+    Meteor.call("requestRefund", order._id, function(error, success) {
+      if (error) {
+        console.err(error);
+      } else {
+        console.log("successfully requested refund!");
+      }
+    });
+  },
   "click .js-delete-order": function(event, instance) {
     const order = instance.data;
     if (order.pending) {
@@ -32,25 +53,15 @@ Template.order_receipt.events({
         if (error) {
           console.log(error);
         } else {
-          console.log("deleted", success, "order(s)");
+          console.log("deleted pending order #" + order._id);
         }
       });
     } else {
-      console.log("trying to delete an order");
-      Meteor.call("requestRefund", order._id, function(error, success) {
+      Meteor.call("deleteOrder", order._id, function(error, success) {
         if (error) {
           console.log(error);
         } else {
-          const new_order = Orders.findOne({_id: order._id});
-          if (new_order.receipt.refunded) {
-            Meteor.call("deleteOrder", order._id, function(error, success) {
-              if (error) {
-                console.log(error);
-              } else {
-                console.log("successfully deleted order");
-              }
-            });
-          }
+          console.log("deleted order #" + order._id);
         }
       });
     }

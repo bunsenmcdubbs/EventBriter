@@ -135,17 +135,18 @@ Meteor.methods({
       }
     }
   },
+  // precondition: order is not pending and refund approved
   deleteOrder: function(order_id) {
     const order = Orders.findOne({_id: order_id});
-    const event_id = order.event_id;
-    console.log(order);
-    _(order.tickets).each(function(ticket) {
-      Meteor.call("_removeSoldTicketFromEvent", event_id, ticket.ticket_id);
-    });
-    Meteor.call("_removeOrderFromEvent", event_id, order._id);
 
+    // block further execution if order is not refunded
+    if (!order.receipt.refunded) {
+      console.log("order must already have been refunded!");
+      throw new Meteor.Error("unrefunded_ticket", "ticket must be refunded to delete");
+    }
+
+    Meteor.call("_removeOrderFromEvent", order.event_id, order._id);
     Meteor.call("_removeOrderFromUser", order_id, order.user_id);
-
     return Orders.remove({
       _id: order_id
     });

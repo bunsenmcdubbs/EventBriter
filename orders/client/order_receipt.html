@@ -1,11 +1,16 @@
 <template name="order_receipt">
   <div class="card">
     <div class="card-header">
-      <h3>Order #{{_id}} for {{event.name}}</h3>
+      <h3>
+        {{#if receipt}}{{#if receipt.refunded}}[Refunded]{{/if}}{{/if}}
+        Order #{{_id}} for {{event.name}}
+      </h3>
       <a class="js-edit-order btn btn-primary-outline">Edit</a>
       <!-- TODO change wording for non-pending orders to be sensitive about free tickets -->
-      <a class="js-delete-order btn btn-primary-outline">
-        {{#if pending}}Delete{{else}}Request Refund{{/if}}</a>
+      {{#unless pending}}
+      <a class="js-refund-order btn btn-primary-outline">Request Refund</a>
+      {{/unless}}
+      <a class="js-delete-order btn btn-primary-outline">Delete</a>
     </div>
     <div class="card-block">
       {{> ticket_table tickets=tickets}}

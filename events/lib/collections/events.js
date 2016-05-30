@@ -251,11 +251,22 @@ Meteor.methods({
       }
     }
 
+    // handle missing tickets (ie already removed)
+    if (!event.tickets[ind].sold[ticket_id]) {
+      // TODO make this better (esp. upstream)
+      console.log("could not find sold ticket in event");
+      return false;
+    }
+
+    const ticket = event.tickets[ind].sold[ticket_id];
+
     const field = "tickets." + ind + ".sold." + ticket_id;
     const remove_ticket = {
       $unset: {},
     };
     remove_ticket.$unset[field] = "";
-    return Events.update({_id: event_id}, remove_ticket) === 1;
+    const success = Events.update({_id: event_id}, remove_ticket);
+
+    return ticket;
   },
 });
