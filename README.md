@@ -1,3 +1,6 @@
+# NOTE: this is an abandoned experiment but the code remains here for reference/completeness
+Not production ready or finished
+
 # EventBriter: Events, Brighter
 
 aka EventBrite without a service fee and with more HackGT love :heart:
